@@ -72,6 +72,9 @@ If there is a file of RPGLE, it will be kept in `qrpgsrc` or `qrpglsrc`, like th
       - Contains type, name, and functions.
       - Type `R` for record level entry.
       - Click F4, Type: `R`, Name: `ACCOUNTR`
+
+      ![alt text](imgs/nextline.png)
+      To add a new line, use `I` in the left part as shown above. To add multiple lines, add the number of lines along with `I` like `I2` for add 2 lines. If you want to add the lines in between any field or record, keep the pointer above on left where you want to add and type `I` and enter.
    3. **Field Level Entries**:
       - Contains field names, data types, keywords.
       - Click F4, Name: `ACCNTNO`, Length: 10, Position: 0

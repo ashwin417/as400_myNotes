@@ -1,8 +1,10 @@
 # Day 1 - 23 Dec 2024
 
+- **IBM i**: A machine designed to replace mainframes at a lower cost.
 - **OS**: OS400
 - **Database**: DB2
-- **IBM i**: A machine designed to replace mainframes at a lower cost.
+- **Software used ot access OS400**: Mochasoft
+
 - **References**:
   - [Go4AS400](https://www.go4as400.com/)
   - [AS-400 Training GitHub Wiki](https://github.com/skill-at/AS-400-Training/wiki)

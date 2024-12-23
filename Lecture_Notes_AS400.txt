@@ -1,0 +1,96 @@
+
+-------------------------------- DAY 1 - 23 DEC 2024 --------------------------------------------------------------
+OS - OS400
+Database - DB2
+IBMi is a machine to replace mainframe at lower cost.
+https://www.go4as400.com/
+https://github.com/skill-at/AS-400-Training/wiki
+IBM® Rational® Developer for i(RDi) provides an integrated development environment (IDE) to create, maintain and modernize applications on the IBM i platform.
+
+=> Source Physical file (are used to organise source members)
+1. Create a source member
+2. Compile that member to create as400 object
+
+If there is a file of rpgle, it will be kept in qrpgsrc or qrpglsrc, like that clp in qclsrc, sql in qsqlsrc, dds in qddssrc
+
+CREATE commands starts in CRT
+DELETE in dlt
+Work in wrk
+display in dsp
+copy in cpy
+Library in lib
+source in src
+
+- To create a library => crtlib
+- To create a source physical file => crt src pf => crtsrcpf
+
+
+Naming standards for source file => QDDSSRC (For DDS file), QRPGLSRC, QCLSRC (CL Src)
+
+qtemp - Temporary buffer library
+
+---- CREATING DATABASE FILES ----
+ TWO WAYS: 
+ 
+ 1) DDS WAY : 
+	Two types of files : Physical files(Contains actual data) and Logical files(View on physical file  data Like Views/indexes in sql , can be built on one physical file or multiple physical files too)
+	COMMANDS: 
+		1. Prompt => WRKMBRPDM
+		2. File : QDDSSRC
+		Clicking F6, it will go to SEU
+		MBR => ACCOUNTPF
+		
+		
+		Requirement of Physical File
+		(Key)ACCOUNTNO - NUMERIC MAX LENGTH: 10
+			ACCOUNTNAME - CHAR 50
+			ADDRESS - CHAR 100
+			ACNTBAL - NUMERIC 10,2 (Account Balance can to be in decimal too)
+			
+		SYNTAX: 
+			1. FILE LEVEL ENTRIES
+				(Not a mandatory entry, contains only functions/Keywords)
+			2. RECORD LEVEL ENTRIES
+				(Contains type, name and functions)
+				(Type R for recorld level entry)
+				Click F4 Give type R and name as ACCOUNTR, max lengght 10 (just a sample function.)
+			3. Field Level ENTRIES
+				(Contains field names, data types, keywords )
+				Click F4, Name as ACCNTNo, Length as 10, Position - 0
+				Click F4, Name as ACNTName, length 50
+				Again F4, same as previous for address and CITY
+				Again F4, Name as BALAMNT, Length 10, Decimal positions - 2. (If error check for blank space in Length)
+			4. Key LEVEL
+				(To add the key)
+				F4, Type as K, Name as ACCNTNo
+			To save and continue - type 'save' in SEU => line
+	--- Create an object by compiling the source member ---
+		Go back to PDM, add Opt as 14 to compile
+		Check 'WRKOBJ' to see the object files. 
+				
+	--- To Enter Data(Row) => Command 'UPDDTA ACCOUNTPF' (To change according to some account no. enter the number in acc no. field and click F5 in format.), New Entry => F10
+	--- To view the entered data => 'RUNQRY *N ACCOUNTPF'
+	
+ 2) SQL/DDL : 
+	To start sql, use 'strsql' and press ENTER , SQL SESSION will appear and add your sql queries. If you don't know syntax, use F4 to prompt and make query. 
+	Retrieve F9 can be used to get the used line again. Keep the cursor on the Query to be repeated and click F9, that query will appear. 
+
+--- For primary key, in DDS, it should be explicitly mentioned to get it unique, else it won't be just being key. 
+	Go to PDM, use EDIT (OPT 2), before the file level, make a line and in functions add 'UNIQUE'. Then Compile. 
+	
+--- After compile, new object is created and so the data will be erased. To avoid that, just backup the data.
+
+---- Sample Logical File ----
+	Need of logical file : Take an example of where there is a table with empno and empcity. empno is Key. you want to get emp data according to city so now you want to make empcity as key to order it. If we just change key here, it will affter other programs. Instead make a logical view and make empcity as key and work on it.
+	i.e 1) Order of retrieval of records
+		2) Select or omit
+		3) If need a lesser no. of limits, or want to get data from multiple physical files. 
+--- CREATING LOGICAL FILE:(CITY as key)
+	Go to PDM, click F6, Create a source adding LF type and all(ACCOUNTLF as name). Get into Edit => prompt type = R, Record Name = ACCOUNTR(Exactly same as physical filename), in functions add "PFILE(ACCOUNTPF)" (to know which is the physical file)
+	Next line, add Type K, name 'CITY'. (No need of file level entry since we need all the fields)
+	Compile it. then 'RUNQRY *N ACCOUNTLF'
+	- If we update the logical file, it will update Physical file too. i.e. Logical file create an access path to physical file. 
+	
+	
+
+-------------------------------- DAY 2 - 24 DEC 2024 --------------------------------------------------------------

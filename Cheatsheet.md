@@ -56,13 +56,16 @@
 
 ## Library Lists Commands
 
-| Command      | Description                | Syntax                  |
-|--------------|----------------------------|-------------------------|
-| ADDLIBLE     | Add a library to your list | `ADDLIBLE <LIB>`        |
-| CHGLIBL      | Change library list        | `CHGLIBL LIB(<LIB>)`    |
-| DSPLIBL      | Show current library list  | `DSPLIBL`               |
-| EDTLIBL      | Edit library list          | `EDTLIBL`               |
-| RMVLIBLE     | Remove library list entry  | `RMVLIBLE <LIB>`        |
+| Command             | Description                          | Syntax                   |
+|---------------------|--------------------------------------|--------------------------|
+| ADDLIBLE            | Add a library to your list           | `ADDLIBLE <LIB>`         |
+| CHGLIBL             | Change library list                  | `CHGLIBL LIB(<LIB>)`     |
+| DSPLIBL             | Show current library list            | `DSPLIBL`                |
+| DSPLIB              | Display library                      | `DSPLIB <LIB>`           |
+| EDTLIBL             | Edit library list                    | `EDTLIBL`                |
+| ADDLIBLE            | Add library list entry               | `ADDLIBLE <LIB>`         |
+| WRKLIBPDM           | Work with libraries using PDM        | `WRKLIBPDM`              |
+| CRTLIB              | Create a library                     | `CRTLIB LIB(<LIB>)`      |
 
 ## Logs/System Commands
 
@@ -137,8 +140,4 @@
 | DIR          | Displays directories and files on remote system | `DIR`                           |
 | EBCDIC       | Sets file transfer type to EBCDIC               | `EBCDIC`                        |
 | GET          | Copies a file from the remote system to the local system | `GET <REMOTE> <LOCAL>`     |
-| LCD          | Changes the working directory on local system   | `LCD <DIR>`                     |
-| LPWD         | Displays the working directory on local system  | `LPWD`                          |
-| LS           | Lists the names of files in a file set on remote system | `LS`                         |
-| MGET         | Copies files from the remote system             | `MGET <FILES>`                  |
-| MKDIR        | Creates a directory or subdirectory             | `
+| LCD          | Changes the working directory on local system   | `LCD <DIR>`

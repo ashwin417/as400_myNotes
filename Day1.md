@@ -120,4 +120,14 @@ If there is a file of RPGLE, it will be kept in `qrpgsrc` or `qrpglsrc`, like th
     - Compile it, then run: `RUNQRY *N ACCOUNTLF`
     - If you update the logical file, it will update the physical file too. i.e., Logical file creates an access path to the physical file.
 
+----------------------------------------------------------------
 
+# Commands Learnt
+
+- `CRTLIB`
+- `WRKMBRPDM`
+- `UPDDTA`
+- `WRKOBJ`
+- `RUNQRY *N`
+- `STRSQL`
+- `CRTSRCPF `

@@ -18,6 +18,10 @@
 | WRKQRY         | Work with Queries          | `WRKQRY`            |
 | UPDDTA         | Update data in a file      | `UPDDTA <FILE>`     |
 | RUNQRY *N      | Run a query on a file      | `RUNQRY *N <FILE>`  |
+|STRPEU|Start SEU||
+|STRSDA|Start SDA||
+|STRRLU|Start RLU||
+|STRDDFU|Start DFU||
 
 ## IFS Commands
 

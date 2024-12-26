@@ -73,7 +73,7 @@ qtemp - Temporary buffer library
 	
  2) SQL/DDL : 
 	To start sql, use 'strsql' and press ENTER , SQL SESSION will appear and add your sql queries. If you don't know syntax, use F4 to prompt and make query. 
-	Retrieve F9 can be used to get the used line again. Keep the cursor on the Query to be repeated and click F9, that query will appear. 
+	Retrieve F9 can be used to get the used line again. Keep the cursor on the Query to be repeated and  click F9, that query will appear. 
 
 --- For primary key, in DDS, it should be explicitly mentioned to get it unique, else it won't be just being key. 
 	Go to PDM, use EDIT (OPT 2), before the file level, make a line and in functions add 'UNIQUE'. Then Compile. 
@@ -94,3 +94,84 @@ qtemp - Temporary buffer library
 	
 
 -------------------------------- DAY 2 - 24 DEC 2024 --------------------------------------------------------------
+
+- Create library `CRTLIB ashlib`
+	Lib => ashlib
+	To check if library is there `wrkobj ashlib`
+- crtsrcpf file
+-  wrkmbrpdm file(ashlib/qddssrc)
+- Create member
+
+Number need to be left justified, to do it use it click insert and then space.
+to click F keys higher than 12, use shift + incremented value... i.e for f14, click shift + 2.... for f20 , shift + 8
+
+Levels in logical file:
+file level
+record level - r
+field level - needs pfile()
+key level - k
+select/omit level - s or o
+
+
+Logical file will show error due to library being to default while compiling. To solve it, use `CHNCURLIB` command and make your library as the current library and then compile. 
+
+TO debug error
+wrksplf - To check all spool files created by interactive job.
+Select assistance level or F21 , and change it to 2 intermediate
+Give 5 in opt to display and then give B in control to get to bottom of the file as the error will be present at end of the file. 
+
+Command to delete spool file - DLTSPLF * Select
+
+DSPFFD - display file feild description
+dspfd - display file description
+
+To display all the files starting with emplf objects.. use "wrkobj emplf*"
+
+command to display all the dependent files (especially logical file object) is dspdbr
+dltobj to delete objects, object type will be *file
+
+-------------------------------- DAY 3 - 26 DEC 2024 --------------------------------------------------------------
+Operators 
+
+COMP EQ/GT
+CMP
+VALUES
+LIST
+
+give this when using S/O type to compare and select the fields in the function field.
+e.g. CMP(EQ 'HYD')
+
+With dynamic select, it happens at run time. It happens after the system runs and identifies all. 
+
+if need to have lowercase value, go to edit change source settings "Change session defaults" or F13. Then change uppercase input only to N.
+
+for join, if need to take a common field into the output, use jref() and mention from which file need to show. like Jref(1) if need to refer from first file.
+
+Data types in DDS
+
+	A: character
+	P : Packed Decimal ... default ( 2 digit occupy 1 byte ) 5 or 6 bytes 
+	S: Zoned decimal (1 digit occupy 1 byte) 10 bytes
+	L : Date
+	t: time
+	z: timestamp
+	
+Keywords / Functions:
+
+File level : UNIQUE, Fifo, lifo, fcfo, DYNSLT, JDFVAL
+Record level : PFILE, Jfile, TEXT
+Field level : JRef (Join if), COLHDG(Column heading), values/cmp
+Key Level : ABSVAL(Absolute value), ALIAS, DESCEND
+
+
+------  SQL
+
+Can be done using strsql, but we do with creating file in QSQLSRC for future alterations easy way.
+Create src file QSQLSRC. 
+create source member for sql type.
+sql cannot be compiled using 14 opt here. To execute SQL, use command RUNSQL STM, give commitment control as none. 
+NOT NULL WITH DEFAULT is added because when we insert data only to specific columns and others are left with nothing, sql will assign default value like 0 for int, space for text instead of NULL, which will cause problem with RPG programming.
+You have to delete the table if you want to update the table. Because create table can only be done once. 
+
+
+ASSIGNMENT : CREATE STUDENT TABLE AND MARKS TABLE, ENTER DATA.... ROLLNO, TOTAL MARKS, MARKS OBTAINED, PERCENTAGE... CREATE A VIEW.

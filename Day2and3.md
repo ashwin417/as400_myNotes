@@ -138,4 +138,43 @@
 DROP TABLE <TABLE>
 ```
 
+### ASSIGNMENT -  CREATE STUDENT TABLE AND MARKS TABLE, ENTER DATA.... ROLLNO, TOTAL MARKS, MARKS OBTAINED, PERCENTAGE... CREATE A VIEW.
 
+Student table:
+
+ Columns . . . :    1  80                                      Browse                                                ASHLIB/QSQLSRC 
+ SEU==>                                                                                                                  STDNTTABLE 
+ FMT **  ...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8                                            
+        *************** Beginning of data ***************************************************************************************   
+0001.00 CREATE OR REPLACE TABLE STDNTTABLE (                                                 241226                                 
+0002.00 ROLLNO INTEGER NOT NULL WITH DEFAULT,                                                241226                                 
+0003.00 NAME VARCHAR(20) NOT NULL WITH DEFAULT,                                              241226                                 
+0004.00 ADDRESS VARCHAR(20) NOT NULL WITH DEFAULT,                                           241226                                 
+0005.00 PRIMARY KEY (ROLLNO)                                                                 241226                                 
+0006.00 );                                                                                   241226                                 
+        ****************** End of data ******************************************************************************************   
+                                                                                                                                    
+                                                                                                                                   
+                                                                                                                                   
+MARKS TABL:
+ Columns . . . :    1  80                                      Browse                                                ASHLIB/QSQLSRC 
+ SEU==>                                                                                                                  MARKSTABLE 
+ FMT **  ...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8                                            
+        *************** Beginning of data ***************************************************************************************   
+0001.00 CREATE OR REPLACE TABLE MARKSTABLE (                                                 241226                                 
+0002.00 ROLLNO INTEGER NOT NULL WITH DEFAULT,                                                241226                                 
+0003.00 MARKS_OBTAINED NUMERIC NOT NULL WITH DEFAULT,                                        241226                                 
+0004.00 TOTAL_MARKS NUMERIC NOT NULL WITH DEFAULT,                                           241226                                 
+0005.00 PRIMARY KEY (ROLLNO));                                                               241226                                 
+        ****************** End of data ******************************************************************************************   
+                                                                                                                                    
+VIEW WITH JOIN:
+ Columns . . . :    1  80                                      Browse                                                ASHLIB/QSQLSRC 
+ SEU==>                                                                                                                  JV_SDTMRKS 
+ FMT **  ...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8                                            
+        *************** Beginning of data ***************************************************************************************   
+0001.00 CREATE VIEW JV_SDTMRKS AS                                                            241226                                 
+0002.00 SELECT A.ROLLNO, A.NAME, B.MARKS_OBTAINED, B.TOTAL_MARKS,                            241226                                 
+0003.00 (B.MARKS_OBTAINED * 100/B.TOTAL_MARKS) AS PERCENTAGE FROM                            241226                                 
+0004.00 STDNTTABLE A JOIN MARKSTABLE B ON A.ROLLNO=B.ROLLNO;                                 241226                                 
+        ****************** End of data ******************************************************************************************   

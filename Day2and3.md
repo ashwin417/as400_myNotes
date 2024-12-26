@@ -128,10 +128,8 @@
   - Create source file `QSQLSRC`.
   - Create a source member for SQL type.
 
-**Note**: SQL cannot be compiled using option 14 here. To execute SQL, use the command `RUNSQL` STM, give commitment control as none.
-```plaintext
-RUNSQL STM('SQL statement') COMMIT(*NONE)
-```
+**Note**: SQL cannot be compiled using option 14 here. To execute SQL, use the command `RUNSQLSTM`, go for prompt `F4` give commitment control as none.
+
 
 - **NOT NULL WITH DEFAULT** is added because when inserting data only to specific columns and others are left empty, SQL will assign default values like 0 for int, space for text instead of NULL, which causes problems with RPG programming.
 
@@ -139,5 +137,5 @@ RUNSQL STM('SQL statement') COMMIT(*NONE)
 ```plaintext
 DROP TABLE <TABLE>
 ```
-```
+
 

@@ -25,7 +25,7 @@ source in src
 - To create a source physical file => crt src pf => crtsrcpf
 
 
-Naming standards for source file => QDDSSRC (For DDS file), QRPGLSRC, QCLSRC (CL Src)
+Naming standards for source file => QDDSSRC (For DDS file), QRPGLSRC, QCLSRC (CL Src) - TO STORE STRUCTURES AND SYNTAX OF A FILE... ITS LIKE A REPOSITORY
 
 qtemp - Temporary buffer library
 
@@ -70,6 +70,7 @@ qtemp - Temporary buffer library
 				
 	--- To Enter Data(Row) => Command 'UPDDTA ACCOUNTPF' (To change according to some account no. enter the number in acc no. field and click F5 in format.), New Entry => F10
 	--- To view the entered data => 'RUNQRY *N ACCOUNTPF'
+	DFU HELPS UPDDTA IN THE BACKEND
 	
  2) SQL/DDL : 
 	To start sql, use 'strsql' and press ENTER , SQL SESSION will appear and add your sql queries. If you don't know syntax, use F4 to prompt and make query. 
@@ -175,3 +176,67 @@ You have to delete the table if you want to update the table. Because create tab
 
 
 ASSIGNMENT : CREATE STUDENT TABLE AND MARKS TABLE, ENTER DATA.... ROLLNO, TOTAL MARKS, MARKS OBTAINED, PERCENTAGE... CREATE A VIEW.
+
+create a view on transaction table showing acc no, acc name, total transaction amount based on the trantype
+
+-------------------------------- DAY 4 - 27 DEC 2024 --------------------------------------------------------------
+
+Adding record format in sql. 
+while creating table add rcdfmt <name> at the end.
+it is not technical req for sql, but can be used for rpg opcodes. tHIS IS equivalent to R type entry in DDS.
+
+CLOB, GLOB, BLOB are datatypes used for bigger size. 
+
+in case if we get null value in the query add, ifnull(fieldname, value in case of null) function. 
+
+-------------------------RPG Programming--------------------------------------------------------------------
+- Report Program Generator
+Present version - RPGLE or RPG400 or RPG IV
+Source type - RPGLE
+Source physical type - QRPGLSRC
+
+
+RPGLE Specifications
+	H - Control Specifications : Controls the way the program is created and how it will behave. e.g. DATFMT(*MDY) can be compiled the way we want.
+	F - file specification : All file declarations happens here.
+	D - Definition Specifications: Variables are declared here, including procedures, data structures
+	C - Calculation spec: All the operations will be coded here. Reading, writing records, etc all will be here. 
+	P - Procedure spec for RPG ILE : To deal with procedures of diff langs
+	O - Output spec
+
+* IS USED TO COMMENT.
+
+End of code:
+RETURN OPCODE IS USED TO END THE PROGRAM
+Indictor variables - switch on last record indicator at the end => EVAL *INLR = '1' . IN is standard for indicators. 
+can use either of them
+
+compile using 14 ... i.e crtbnd
+execute - call <filename>
+
+To convert a decimal to char use %char()
+CHAR TO DEC ... %DEC(VAR:5:2)
+%DATE(VAR NAME)
+
+<> means not equals to
+
+use %trim() remove remaining spaces from a variable
+
+ALTERNATIVE TO IF ELSE => select when
+
+syntax:
+
+Select 
+	When condt1
+		execute
+	when condt2
+		execute
+	OTHERS
+		execute
+	Endsl
+	
+	use this only when you want to satisfy only 1 condt
+	
+TO INPUT A NUMBER : CALL PGM(ASHLIB/CALC4) PARM(('+') (5 (*DEC 10 0)) (4 (*DEC 10 0)))
+OR 
+CALL PGM(ASHLIB/CALC3) PARM(('-') (X'00000000005F') (X'00000000004F')) 

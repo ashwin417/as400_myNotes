@@ -174,7 +174,13 @@ VIEW WITH JOIN:
  FMT **  ...+... 1 ...+... 2 ...+... 3 ...+... 4 ...+... 5 ...+... 6 ...+... 7 ...+... 8                                            
         *************** Beginning of data ***************************************************************************************   
 0001.00 CREATE VIEW JV_SDTMRKS AS                                                            241226                                 
-0002.00 SELECT A.ROLLNO, A.NAME, B.MARKS_OBTAINED, B.TOTAL_MARKS,                            241226                                 
-0003.00 (B.MARKS_OBTAINED * 100/B.TOTAL_MARKS) AS PERCENTAGE FROM                            241226                                 
-0004.00 STDNTTABLE A JOIN MARKSTABLE B ON A.ROLLNO=B.ROLLNO;                                 241226                                 
+0002.00 SELECT A.ROLLNO, A.NAME,                                                             241226                                 
+0003.00     SUM(B.MARKS_OBTAINED) AS TOTAL_MARKS_OBTAINED,                                   241226                                 
+0004.00     SUM(B.TOTAL_MARKS) AS TOTAL_MAX_MARKS,                                           241226                                 
+0005.00     CAST(ROUND((SUM(B.MARKS_OBTAINED) * 100.0 / SUM(B.TOTAL_MARKS)), 2)              241226                                 
+0006.00 AS DECIMAL(5, 2)) AS PERCENTAGE                                                      241226                                 
+0007.00 FROM STDNTTABLE A JOIN                                                               241226                                 
+0008.00     MARKSTABLE B ON A.ROLLNO = B.ROLLNO                                              241226                                 
+0009.00 GROUP BY A.ROLLNO, A.NAME;                                                           241226                                 
+                          
         ****************** End of data ******************************************************************************************   

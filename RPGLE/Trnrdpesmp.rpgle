@@ -1,3 +1,5 @@
+transaction setgt and readpe 
+
  Columns . . . :    6 100                                      Browse                                              ASHLIB/QRPGLESRC 
  SEU==>                                                                                                                  TRNRDPESMP 
  FMT FX FFilename++IPEASF.....L.....A.Device+.Keywords+++++++++++++++++++++++++++++Comments++++++++++++                             

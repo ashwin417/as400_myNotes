@@ -113,7 +113,7 @@ CALL PGM(ASHLIB/CALC3) PARM(('-') (X'00000000005F') (X'00000000004F'))
 ### Reading Equals
 - **READE**: Read equal, reads the next record with the same key value.
 
-```
+
 
 A detailed differentiation table for `READ`, `READE`, `READP`, and `READPE` operations in RPGLE:
 

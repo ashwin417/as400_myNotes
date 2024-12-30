@@ -211,7 +211,7 @@ RETURN OPCODE IS USED TO END THE PROGRAM
 Indictor variables - switch on last record indicator at the end => EVAL *INLR = '1' . IN is standard for indicators. 
 can use either of them
 
-compile using 14 ... i.e crtbnd
+compile using 14 ... i.e crtbndrpg
 execute - call <filename>
 
 To convert a decimal to char use %char()
@@ -237,6 +237,50 @@ Select
 	
 	use this only when you want to satisfy only 1 condt
 	
-TO INPUT A NUMBER : CALL PGM(ASHLIB/CALC4) PARM(('+') (5 (*DEC 10 0)) (4 (*DEC 10 0)))
+TO INPUT A NUMBER through CL: `CALL PGM(ASHLIB/CALC4) PARM(('+') (5 (*DEC 10 0)) (4 (*DEC 10 0)))`
 OR 
-CALL PGM(ASHLIB/CALC3) PARM(('-') (X'00000000005F') (X'00000000004F')) 
+`CALL PGM(ASHLIB/CALC3) PARM(('-') (X'00000000005F') (X'00000000004F'))`  make the length 10 and F indicates signed bits... total bits should be even including F... if not add a 0 there
+
+
+DSPSYSVAL QDATE
+DSPSYSVAL QTIME
+
+-------------------------------- DAY 5 - 28th DEC 2024 --------------------------------------------------------------
+Working with Files (File operations):
+F spec is used here
+Use F and prompt f4 and enter file name and enter file types as per need.
+I - for input
+O - for output like for printer
+C - combine type, used for screens
+U - to update.
+
+for Database we majorly use I and U. 
+
+Then enter file designation: F, it will act based on the procedures in the program
+End Of File is not needed 
+File addition : A - allows to add but not update. but blank space wont allow add too.
+leave seq no.
+File Format: give E to indicater externally
+Record address type: K, it will be sequence of Key... if blank it will be in order of arrival Sequence in the program
+Device: where will the file. All the DB file and data will be in the disk. For screen it will be in the workstation(WORKSTN). For printer files/reports it will be in the printer.
+To read, or read in sequence, give operation code `read` and factor 2 as file name
+
+Loops:
+for : whenever dealing indexes like array
+do while and do until : for file processing
+do while(DOW) : give positive conditions
+do until(DOU) : till negative conditions
+
+
+SETLL : Set lower limit => to set pointer
+if a match is found, it will point to that match, if not found then it will take the next available thing
+
+SETGT : Set greater limit => it will always place to next greater thing
+
+to read in reverse, use readp ( read previous )
+
+*loval for setll
+*hival for setgt
+
+
+reade => read equal , it will read equal next record.

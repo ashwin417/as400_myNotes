@@ -119,10 +119,10 @@ A detailed differentiation table for `READ`, `READE`, `READP`, and `READPE` oper
 
 | Operation | Description                                           | Usage Example          | Key Considerations  |
 |-----------|-------------------------------------------------------|------------------------|---------------------|
-| **READ**  | Reads the next record in the file sequentially        | `READ MYFILE`          | - Sequential reading <br> - Ignores key structure |
-| **READE** | Reads the next record with the same key value         | `READE key MYFILE`     | - Reads matching key records sequentially <br> - Use `SETLL` to position |
-| **READP** | Reads the previous record in the file sequentially    | `READP MYFILE`         | - Reverse sequential reading <br> - Ignores key structure |
-| **READPE**| Reads the previous record with the same key value     | `READPE key MYFILE`    | - Reads matching key records in reverse <br> - Use `SETGT` to position |
+| **READ**  | Reads the next record in the file sequentially        | `READ MYFILE`          | - Sequential reading - Ignores key structure |
+| **READE** | Reads the next record with the same key value         | `READE key MYFILE`     | - Reads matching key records sequentially - Use `SETLL` to position |
+| **READP** | Reads the previous record in the file sequentially    | `READP MYFILE`         | - Reverse sequential reading - Ignores key structure |
+| **READPE**| Reads the previous record with the same key value     | `READPE key MYFILE`    | - Reads matching key records in reverse - Use `SETGT` to position |
 
 ### Detailed Explanation
 

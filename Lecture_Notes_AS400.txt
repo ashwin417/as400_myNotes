@@ -123,7 +123,7 @@ Give 5 in opt to display and then give B in control to get to bottom of the file
 
 Command to delete spool file - DLTSPLF * Select
 
-DSPFFD - display file feild description
+DSPFFD - display file fIEld description
 dspfd - display file description
 
 To display all the files starting with emplf objects.. use "wrkobj emplf*"
@@ -284,3 +284,160 @@ to read in reverse, use readp ( read previous )
 
 
 reade => read equal , it will read equal next record.
+
+
+-------------------------------- DAY 6 - 30th DEC 2024 --------------------------------------------------------------
+
+Program to give total number of employees from each city. (using setLL) using a variable which will hold the city name , increment as loops goes on and then displays the cnt when a new city comes.
+%XLATE('abcdefghijklmnopqrstuvwxyz': 'ABCDEFGHIJKLMNOPQRSTUVWXYZ': prevc) small to caps\
+
+to debug
+take option 14, f4 then f10... in compiler options : *NODEBUGIO
+then do pagedown and in debugging views give '*source'... then compile... then run strdbg command and give in update production files give yes
+
+using chain: to search a record in a file which have unique keys. It's a combination of setll and reade
+
+program to accept empno as input and display empname using chain
+
+SEU is used to design screens. STRSDA is the command to create screen
+
+CA03 to indicate F3
+
+for screen file type should be C and Workstn. to read from screen use 'EXFMT' and give record format name.
+Use ? to change decimal types.
+
+-------------------------------- DAY 7 - 31ST DEC 2024 --------------------------------------------------------------
+WRKUSRJOB - gives details of all the job of a particular user and can end it.
+wrkusrjob status(*ACTIVE) to get all the active jobs.
+
+TO CUT AND PASTE IN THE SCREEN, -<CONTENTHERE>- TO CUT AND PUT = WHERE YOU HAVE TO PASTE. FOR COPY USE == 	
+
+go change colors give * on left of the variable and enter
+
+Subroutines - to divide programs. Created after last statement.
+ - it starts with begsr Operation code, give factor 1, and ends with ENDSR
+ - to execute subroutine, give operation code exsr <name at factor 2> in main line code.
+ 
+ If there is f12 to exit in every SR... switch of the indicator.
+ 'ITER' for continuing the loop(opposite of leave) i.e. to move the control to the first line of loop.
+ 
+ Use reverse indicator to highlight the error and add a indicator value of any number like 87. in program... during other or else statement add '*in87 = on'. make it off after exfmt.
+ 
+-------------------------------- DAY 8 - 1ST JAN 2025 --------------------------------------------------------------
+H SPEC Keywords:
+HOPTION(*NODEBUGIO:*SRCSTMT:*NOUNREF), 
+ALWNULL(*USRCTRL)
+
+DSPEC KEYWORD :
+ INZ TO INTIALIZE INZ(<VALUE HERE>
+ Declearing constant, use type 'C' and in keywords, use CONST('abc')
+ LIKE used to refer a variable to another variable. e.g refering a variable in a file. 
+ e.g DWEPMNO	S 					LIKE(EMPNO)
+ 
+ 
+ ------------------------------------
+ 
+JOURNALLING - TO ANALYZE THE FILES OF THE PROJECT. WAY TO LOG THE DATABASE TRANSACTIONS AND UPDATES.
+HOW TO JOURNAL?
+
+WE HAVE 2 OBJECTS - JOURNAL AND JOURNAL RECIEVERS.
+
+- COMMITMENT CONTROL => IF WE DONT WANT OUR PROGRAM TO BE UPLOADED TO THE DATABASE.
+TO DO COMMITMENT CONTROL, JOURNELLING IS NEEDED.
+
+1. CREATING A JOURNAL RECIEVER => CRTJRNRCV
+2. CREATE A JOURNAL => CRTJRN
+3. START JOURNAL PF => STRJRNPF
+ 
+ ONE JOURNAL CAN BE ATTACHED TO MULTIPLE PF. USE BOTH FOR RECORD IMAGES TO INCLUDE UPDATES.
+ 
+ DSPJRN TO CHECK THE JOURNAL
+ YOU CAN USE DSPFD TO CHECK WHAT JOURNAL IS LINKED TO YOUR FILE.
+ DBUJRN - IT WILL GIVE STRUCTURED FB. 
+ 
+ JF AND JM IS GIVEN BY STRJRN COMMAND. IT CAN BE IGNORED.
+ PT/PX - INSERT ENTRY. I.E. BOTH OF THEM REFERS TO INSERT ENTRY IN THE PF.
+ UB - BEFORE UPDATES
+ UP - AFTER UPDATES
+ DL - DELETE RECORD
+ 
+ 
+ Journal is useful to understand which program, which user, what updates all happened.
+ 
+ WHEN JOURNAL THRESHOLD GET FILLED... IT WILL AUTOMATICALLY CREATE NEXT NEW JOURNAL RECIEVER LIKE JRNRCVEG01, JRNRCVEG02 AND SO ON AS GETTING FILLED UP.
+ 
+ IN DSPJRN() SCROLL DOWN, CHANGE  Starting journal receiver  TO   *CURCHAIN.
+ 
+ TO GET OUTPUT IN A FILE, SCROLL DOWN TO FILE IDENTIFIER AND GIVE THE FILE NAME IN OUTPUTFILE.
+ 
+ TO END JOURNALLING OF A PhysicalFILE USE, ENDJRNPF
+ 
+ -----JOURNAL DONE--------------------------------------------------------------------
+ 
+ CONSTRAINTS:
+ 
+ CONSTRAINTS ARE THE WAY TO ENFORCE INTEGRITY INTO THE DB TABLES.
+ 
+ TO ADD CONSTRAINTS IN A Physical FILE, ADDPFCST
+ TO REMOVE, => RMVPFCST
+ 
+ prikey works as primary key like Unique in PF
+ REFKEY works as foriegn key.
+ -----------------------------------------------------
+ 
+ Subfiles - tabular arrangement of records.
+ 
+ design a screen, make the record type as 'SFL'
+ create empctl and sfl...
+ in empctl, add indicators for SFLDSP, SFLDSPCTL,SFLCLR,SFLEND (these thing shows the table we see after giving wrkmbrpdm) IN GENERAL KEYWORDS.
+ 
+ by clicking more.... SFLSIZ  = total no of record that i can add in subfile records.
+ - load all subfile => entire is loaded from db at once ... max limit = 9,999
+ - single time - only at one go, a page is loaded, when it is down, then next set is loaded.
+ - extendedible - only one page is loaded, prev page will be buffered in the memory.
+ 
+create layout in ctl and then go to sfl to add output fields
+ADD OVERLAY KEYWORDS IN CTL 
+
+EXAM - DDS AND RPGLE PROGRAM(SUBROUTINE, SCREENS...ETC) 2ND JANUARY 2025
+
+SUBFILE STEPS:
+
+1. CLEARING OF SUBFILES:
+	CLEAR SUBFILE BUFFER AT ONCE
+	- SWITCH ON THE SFLCLR INDICATOR
+	- WRITE CONTROL PART
+	- SWITCH OFF CLEAR INDICATOR
+	
+2. LOADING DATA FROM DB FILE INTO SUBFILE
+
+    - USE *LOVAL SETLL EMPF
+				READ    EMPF
+				
+	RRN = 0			
+	DOW NOT EOF()
+	POPULATE SUBFILE FILE FIELDS(SEMPNAME = EMPNAME...)
+	WRITE EMPF
+	RRN = RRN+1
+	READ EMPF
+	ENDDO
+	
+	RECORD NOS WILL BE REPRESENTED BY RRN(RELATIVE RECORD NUMBER)
+	
+3. DISPLAYING SUBFILE
+
+	- WRITE FOOTER
+	- SWITCH ON SFLDSP & SFLDSPCTL
+		SFLDSP - SWITCH ON ONLY WHEN THERE ARE RECORDS TO DISPLAY(REFER RRN)
+		SFLDSPCTL - SWITCH ON ALL THE TIME.
+		
+	IF RRN>0
+		SWITCH ON SFLDSP AND SFLEND
+	ENDIF
+	EXFMT CONTROL PART.
+	
+	NO NEED TO SEPERATELY EXFMT FOR SUBFILE.
+	
+	WHY OVERLAY? => WHEN WE GIVE EXFMT, IT REMOVES PREVIOUS SCREEN AND BRING NEW... WHEN ADDING OVERLAY, IT WILL KEEP THE FILLED PART OF FOOTER AND THEN BRINGS CTL IN EMPTY PART
+	
+USE SFILE() - TO LINK RRN TO SUBFILE .... SYNTAX: SFILE(EMPSFL:RRN) WHILE GIVING FILE SPEC

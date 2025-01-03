@@ -441,3 +441,54 @@ SUBFILE STEPS:
 	WHY OVERLAY? => WHEN WE GIVE EXFMT, IT REMOVES PREVIOUS SCREEN AND BRING NEW... WHEN ADDING OVERLAY, IT WILL KEEP THE FILLED PART OF FOOTER AND THEN BRINGS CTL IN EMPTY PART
 	
 USE SFILE() - TO LINK RRN TO SUBFILE .... SYNTAX: SFILE(EMPSFL:RRN) WHILE GIVING FILE SPEC
+
+-------------------------------- DAY 9 - 2ND JAN 2025 --------------------------------------------------------------
+IN THE SCREEN, IN MAIN SUBFILE, GIVE F10 TO GIVE DATABASE REFERENCE.
+DATABASE FILE => EMPF
+RECORD=> EMPREC
+OPTION =>2
+
+IN THE SCREEN, GIVE & AND THE VALUE OF COLUMN GIVEN THERE AS NEEDED.
+TO EDIT CAN GO TO QDDSSRC, GO TO RESPECTIVE DSPF FILE AND EDIT IT.
+
+YOU CAN GIVE SAME NAME IN BOTH SCREEN AND RPGLE FOR VARIABLES. SO IN RPGLE, YOU DONT NEED TO GIVE EVAL SEMPNO = EMPNO ... ETC SEPERATELY. SO INCREMENT RRN AND WRITE INTO FILE.
+
+LEAVESR => EXIT THE SUBROUTINE. 
+
+READC => TO READ FROM SUBFILE. if subfile is empty... then should not process this.
+
+SFLNXTCHG => WHILE UPDATING RECORDS IN SUBFILE, TO NOT TO CARRY THE PREV TO NEXT RECORD.
+
+dspjoblog => to debug during compile time. have 'd' and get dump in spool file and check it.
+
+INDEXES ARE USED FOR FASTER ACCESS
+index syntax:
+select fld1, fld2 , fld3 from file 1 join file2 (keyfields)
+
+to delete object in sql, 3 ways.... 
+-wrkobj
+-dltf
+-drop => remove table/index/view objects from system.
+
+alter table sql command equivalent in DDS.
+CHGPF => this will change pf object by looking change in member (dds). it can change structures of the object based on the source. it can change certain attributes.
+to change structure need to give Source file in CHGPF(f4). to change attributes(max size members), no need to give Source file.
+
+Flat files - Files without any structure. it is used more when a system to send one system to another system.
+crtpf - prompt and give the record length with file name for making a flat file. 
+to add, we can use upddta.
+to delete in sql, can use delete query.
+clrpfm from CL to delete data from flatfile. same as delete in sql query.
+
+
+-----
+
+WRKQRY - TO CREATE QUERIES AND RUN IT AS NEEDED. CAN SELECT DIFFERENT OPTIONS AND FILTER AS PER NEED. MAKE THE QUERY AND THEN RUN IT WITH RUNQRY <QUERY Name>
+IF WANT TO MAKE CHANGES IN THAT QUERY, SAME WRKQRY COMMAND, JUST SELECT CHANGE OPTION.
+
+- USING RUNQRY WITHOUT *N, MEANS TO RUN A QUERY
+
+RUNQRY OPTIONS : 
+PRINTER- WE CAN FIND IT IN WRKSPLF
+OUTFILE - IT GIVES THE OUTPUT INTO A FILE AND CAN BE VIEWED BY SQL WITH THE OUTFILE NAME.
+ 

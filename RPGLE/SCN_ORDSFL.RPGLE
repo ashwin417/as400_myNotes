@@ -25,18 +25,22 @@
 0020.00 C                   WRITE     ORDCTL                                                                250101                  
 0021.00 C                   EVAL      *IN93 = '0'                                                           250101                  
 0022.00 C                   ENDSR                                                                           250101                  
-0023.00  *--------------------------------------------------------------------                              250101                  
-0024.00  *--------SUBROUTINE LOADSFL-----------------------------------------|                              250101                  
-0025.00 C     LOADSFL       BEGSR                                                                           250101                  
-0026.00 C                   EVAL      RRN = 0                                                               250101                  
-0027.00 C     *LOVAL        SETLL     ORDPF_SCR                                                             250101                  
-0028.00 C                   READ      ORDPF_SCR                                                             250101                  
-0029.00 C                   DOW       NOT %EOF()                                                            250101                  
-0030.00 C                   EVAL      RRN = RRN + 1                                                         250101                  
-0031.00 C                   WRITE     ORDSFL                                                                250101                  
-0032.00 C                   READ      ORDPF_SCR                                                             250101                  
-0033.00 C                   ENDDO                                                                           250101                  
-0034.00 C                   ENDSR                                                                           250101                  
+ *--------------------------------------------------------------------       
+ *--------SUBROUTINE LOADSFL-----------------------------------------|       
+C     LOADSFL       BEGSR                                                    
+C                   EVAL      RRN = 0                                        
+C     *LOVAL        SETLL     ORDPF_SCR                                      
+C                   READ      ORDPF_SCR                                      
+C                   DOW       NOT %EOF()                                     
+C                   IF        (ICUSTID = CUSTOMERID AND                      
+C                             ICUSTID <> *BLANKS)   OR                       
+C                             ICUSTID =  *BLANKS                             
+C                   EVAL      RRN = RRN + 1                                  
+C                   WRITE     ORDSFL                                         
+C                   ENDIF                                                    
+C                   READ      ORDPF_SCR                                      
+C                   ENDDO                                                    
+C                   ENDSR                                                                
 0035.00  *--------------------------------------------------------------------                              250101                  
 0036.00  *--------SUBROUTINE DSPLYSFL--------------------------------------|                                250101                  
 0037.00 C     DSPLYSFL      BEGSR                                                                           250101                  

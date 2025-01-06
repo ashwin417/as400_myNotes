@@ -353,7 +353,7 @@ TO DO COMMITMENT CONTROL, JOURNELLING IS NEEDED.
  
  DSPJRN TO CHECK THE JOURNAL
  YOU CAN USE DSPFD TO CHECK WHAT JOURNAL IS LINKED TO YOUR FILE.
- DBUJRN - IT WILL GIVE STRUCTURED FB. 
+ DBUJRN - IT WILL GIVE STRUCTURED DB. 	
  
  JF AND JM IS GIVEN BY STRJRN COMMAND. IT CAN BE IGNORED.
  PT/PX - INSERT ENTRY. I.E. BOTH OF THEM REFERS TO INSERT ENTRY IN THE PF.
@@ -492,3 +492,86 @@ RUNQRY OPTIONS :
 PRINTER- WE CAN FIND IT IN WRKSPLF
 OUTFILE - IT GIVES THE OUTPUT INTO A FILE AND CAN BE VIEWED BY SQL WITH THE OUTFILE NAME.
  
+ 
+-------------------------------- DAY 10 - 3RD JAN 2025 --------------------------------------------------------------
+
+REF and REFFLD - are functions used when clicked f10 in subfile of screen. 
+
+----CL-----------
+Control language program
+
+basically any job or process have starting program as CL program and it will call rpg. 
+source file - QCLSRC
+
+Same sequence :
+
+Start of program : 				PGM
+
+1. file declarations :   		DCLF <FILENAME> COMMAND
+- (CL doesnt have any direct 
+command to update delete etc. 
+It will just directly read.)
+2. Variable declarations		DCL COMMAND
+3. processing 					CHGVAR (Change variable)
+
+End of Program : 				ENDPGM
+
+Between PGM and ENDPGM, all program will be done. Technically it is not mandatory. It is required when you require accepting parameters.
+Every variable will be represented with & like &a 	&b 	&c
+
+-------------------------------- DAY 11 - 4TH JAN 2025 --------------------------------------------------------------
+To make filters, 
+if (Filter = file field AND filter <> ' ') OR FIlter = ' '
+To filter with multiple fields, just formulate it as needed.
+Home work: Use filter with 2 fields
+Filter by:
+	customer : ___________
+	threshold order amount : ____________
+	use the above to filter.
+	
+Keyword : SFLRCDNBR(CURSOR/*TOP) => DDS level keyword/function. This helps to locate and position to the data as needed.	
+ This should be defined in the DDS DSPF file of the screen.
+ To Define, go to DSPF file, go to last line of the record, click F4, enter the name and length and decimal position, Data type (better will be Zoned, packed is also fine) , 
+ add Use as H(hidden field) and enter this function.
+ 
+-------------------------------- DAY 12 - 6TH JAN 2025 --------------------------------------------------------------
+ARRAY - IT IS A STANDALONE VARIABLE, BUT NEED TO SPECIFY USING KEYWORD 'DIM(ARRAY_SIZE)' MEANS DIMENSIONS. THIS ARRAY IS CALLED RUN TIME ARRAY.
+GIVE ARRAY NAME, DECLARATION TYPE - S, GIVE LENGTH(OF EACH ELEMENT) AND KEYWORD 'DIM(ARRAY_SIZE).
+OTHER 2 TYPES - COMPLILE TIME ARRAY(VALUES WILL BE INTIALIZED INSIDE THE PROGRAM ITSELF), PRE RUN TIME ARRAY(WHEN WE ISSUE A CALL COMMAND, IT WILL LOAD THIS FROM A FILE(FLAT FILE)) IT IS NOT USED MUCH. 
+
+INTIALIZING ARRAY...
+IT NEED TO PROVIDED INDEX. e.g C 	EVAL 	ARRAY1(1) = 'a'
+HERE INDEX STARTS FROM 1. 0 IS INVALID.
+%LOOKUP() FOR SEARCHING AN ARGUEMENT IN A ARRAY. FACTOR 1 IS THE SEARCHING ELEMENT AND FACTOR 2 WILL BE THE ARRAY NAME. RETURNS WHICH POSITION THE VALUE BELONGS.
+
+SORTING ARRAY :
+USE 'SORTSA' OPERATOR FOR SORTING ARRAY IN ASCENDING ORDER.
+
+%XFOOT(array_name) => It will return total sum for a numeric array.
+Declaring numeric array, give type s and decimal point 0,
+ xfoot and lookup are also built in function and also opcode.
+ 
+ For Compile time array:
+ it should be declared after the subroutine. from the column 1(we usually start from col 6).
+ to shift left use 'shift+f7' or F19.
+ at the end use ** before entering the values of the array. Also add dim(arraysize)ctdata in the keywords while definition of each array.
+ If to add multiple compile time array and want to enter the values. use ** to enter to the next array in the sequence of the declaration.
+ Compile time array is used to display error messages or static. 
+ 
+ To have 2D array, along with dim() add 'PERRCD(size)' i.e. per record 
+ 
+DATA STRUCTURES:
+DEFINING:
+	DECLARATION TYPE SHOULD BE 'DS'.
+	SUBSEQUENT FIELDS WILL BE SUBFIELDS.
+	SUBFIELDS NEED LENGTH AND FROM. IF YOU DONT GIVE STARTING FROM, SYSTEM WILL DO IT BY CALCULATING THE POSITIONS FROM THE LENGTH.
+	DATA STRUCTURES NEED ZONED TYPE. 
+	WHILE DEFINING GIVE DATA TYPE SHOULD BE GIVEN IF NUMERIC IS NEEDED.
+	
+	
+	
+CREATE A PROGRAM TO POPULATE ALL RECORDS FROM ITMPF TO A FLATFILE.	
+ITMFLTF
+
+WE NEED TO RENAME RECORD FORMAT FOR FLATFILE, SINCE BOTH FILE AND RECORD HAVE SAME NAME. IT CAN BE SOLVED USING RENAME OPERATOR. 
+FIELD AND FILE HAVE SAME NAME, TO SOLVE IT, WE NEED TO USE PREFIX. 

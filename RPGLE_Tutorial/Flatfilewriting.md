@@ -67,3 +67,5 @@
 0009.00 C                   EVAL      *INLR='1'                                                             250106                  
         ****************** End of data ******************************************************************************************   
 ```
+
+#### After completing program, compile it and call the program. For the output, check out the Flatfile using `RUNQRY *N ITMFLTF` or using SQL.

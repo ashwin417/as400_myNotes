@@ -273,7 +273,7 @@ do until(DOU) : till negative conditions
 
 
 SETLL : Set lower limit => to set pointer
-if a match is found, it will point to that match, if not found then it will take the next available thing
+if a match is found, it will point to that match, if not found then it will take the next available thing.
 
 SETGT : Set greater limit => it will always place to next greater thing
 
@@ -394,7 +394,7 @@ TO DO COMMITMENT CONTROL, JOURNELLING IS NEEDED.
  by clicking more.... SFLSIZ  = total no of record that i can add in subfile records.
  - load all subfile => entire is loaded from db at once ... max limit = 9,999
  - single time - only at one go, a page is loaded, when it is down, then next set is loaded.
- - extendedible - only one page is loaded, prev page will be buffered in the memory.
+ - extendedible/elastic - only one page is loaded, prev page will be buffered in the memory.
  
 create layout in ctl and then go to sfl to add output fields
 ADD OVERLAY KEYWORDS IN CTL 
@@ -574,4 +574,45 @@ CREATE A PROGRAM TO POPULATE ALL RECORDS FROM ITMPF TO A FLATFILE.
 ITMFLTF
 
 WE NEED TO RENAME RECORD FORMAT FOR FLATFILE, SINCE BOTH FILE AND RECORD HAVE SAME NAME. IT CAN BE SOLVED USING RENAME OPERATOR. 
-FIELD AND FILE HAVE SAME NAME, TO SOLVE IT, WE NEED TO USE PREFIX. 
+FIELD AND FILE HAVE SAME NAME, TO SOLVE IT, WE NEED TO USE PREFIX. Prefix will change the field names temporarily.
+
+-------------------------------- DAY 13 - 7TH JAN 2025 --------------------------------------------------------------
+
+Difference between chain, reade, setLL
+
+Can use Rename() to rename a table record format. 
+Homework: try rename() on a table. 
+:: RPGLE won't run when file name and record name is same. In table, both file and record format is same. So rename is needed.
+
+
+Considering the flatfile program, we had to define each fields of the PF seperately in the DS. We can prevent that by naming the DS name with P_<name> giving External as 'E' and give keywords with EXTNAME('<PF name>')
+
+PROGRAM STATUS DATA STRUCTURE: Provides info about program errors/exceptions to DS. IT IS AT PROGRAM LEVEL e.g. If there is error, it is stored in a field,
+To define it, give the name, S/U as 's'(program status ds), type 'ds'
+https://www.ibm.com/docs/en/i/7.4?topic=exceptionerrors-program-status-data-structure
+
+QRNXMSG - to get message descriptions. It is system in built message file. It stores all details(error) message which a rpg program can throw.
+ISO format for dates : YYYYMMDD
+
+
+INFDS kEYWORD : DATA STRUCTURES AT FILE LEVEL. (FILE INFORMATION DATA STRUCTURE)
+IT CAN BE ADDED IN THE KEYWORD OF A FILE LEVEL SPECS. THEN DEFINE A NORMAL DATASTRUCTURE WITH 'DS' TYPE ONLY AND SUBFIELDS BASED ON THE NEED.
+https://www.ibm.com/docs/en/i/7.5?topic=exceptionerrors-file-information-data-structure
+
+In subfiles from infds Subfile Min RRN value will be used (positions 378-379) and is Integer type.
+
+Multi occurence data structure defined by keyword `occurs(no of elements)` and read or write is done by %occur() = index
+
+`qualified` keyword => to use with array Data structure. 
+`DDs1		DS		dim(3) qualified`
+It can be directly used with data structure. It means subfields to be qualified for the Data structure name. 
+It is not necessary for normal ds, but is important for array ds.
+It can be used with subfields like ds1(i).sub1...	
+
+`CLEAR <OPCODE>` IS USED TO CLEAR THE JUNK VALUE IN A DATASTRUCTURE ARRAY BEFORE USING IT.
+Clear in opcode and mention the ds in result column.
+
+-------------------------------- DAY 14 - 8TH JAN 2025 --------------------------------------------------------------
+
+
+

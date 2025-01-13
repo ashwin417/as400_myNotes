@@ -64,9 +64,47 @@ A subfile displays records in tabular format on a display device.
   1. Subfile control record format
   2. Subfile record format
 
-#### Type of Subfile:
-- Single Time: Only one page is loaded at a time; when it is down, the next set is loaded.
-- Extendible/Elastic: Only one page is loaded, but the previous page will be buffered in memory.
+#### Types of Subfile 
+
+**I. Load-All Subfile:**
+
+*   **Concept:** Think of this like loading all the search results at once on a web page. The program reads *all* the relevant records from the database and puts them into the subfile's memory buffer. Then, it displays a portion of those records (a "page") on the screen.
+*   **Buffer Size (SFLSIZ):** The subfile buffer (`SFLSIZ`) needs to be big enough to hold *all* the records. It's usually set slightly larger than the number of records you expect or at least one greater than the page size (`SFLPAG`). If you try to load more records than `SFLSIZ` (but less than 9999), the system will automatically increase `SFLSIZ` up to 9999 to fit them all.
+*   **Paging:** The system handles `PAGEUP` and `PAGEDOWN` automatically. However, there's a quirk: if you `PAGEDOWN` and then press `ENTER` on a page, the system will jump back to the *very first page* of the subfile. To fix this, you need to use the File Information Data Structure (`INFDS`) to track the current page's starting record number (RRN) and use that to reposition the subfile.
+*   **Analogy:** Imagine a library where you take all the books you need and put them on a large trolley. You then show a few books at a time from the trolley to someone.
+
+**II. Single Page/Non-Elastic Subfile:**
+
+*   **Concept:** This is like showing only one page of a book at a time. The subfile buffer is *exactly* the same size as the page displayed on the screen.
+*   **Buffer Size (SFLSIZ):** `SFLSIZ` *must* be equal to `SFLPAG`.
+*   **Loading Data:** Each time you want to display a new "page," you *clear* the entire subfile buffer and then load the new set of records. This is why it's called "non-elastic"—the buffer size never changes.
+*   **Paging:** You *must* handle `PAGEUP` and `PAGEDOWN` yourself in your program logic. You need to calculate which records to load for each page.
+*   **Analogy:** Imagine holding only one page of a book in your hand at a time. To see the next page, you put the current page down and pick up the next one.
+
+**III. Expandable/Elastic/Growing Subfile:**
+
+*   **Concept:** Think of this like adding pages to a scrapbook. Each time you load records, you *add* them to the existing subfile buffer. The buffer grows larger and larger.
+*   **Buffer Size (SFLSIZ):** Similar to Load-All, `SFLSIZ` needs to be large enough initially and is usually set to at least one greater than `SFLPAG`. If you load more records than the declared `SFLSIZ` (but less than 9999), the system expands `SFLSIZ` to accommodate them (up to 9999).
+*   **Paging:** `PAGEUP` is handled by the system automatically. However, `PAGEDOWN` is handled by your program. The same quirk exists as in Load-All subfiles concerning `ENTER` after `PAGEUP`; you need to use the `INFDS` to track the current page's RRN.
+*   **Analogy:** Imagine a scrapbook where you add new pages as you find new pictures. The scrapbook gets bigger and bigger.
+
+**Summary Table:**
+
+| Feature        | Load-All                                     | Single Page (Non-Elastic) | Expandable (Elastic/Growing) |
+| :------------- | :------------------------------------------- | :------------------------ | :--------------------------- |
+| Buffer Size    | Holds *all* records; `SFLSIZ` >= `SFLPAG`   | `SFLSIZ` = `SFLPAG`        | Grows with each load; `SFLSIZ` >= `SFLPAG` |
+| Buffer Clearing | Never cleared during loading                 | Cleared before each load   | Never cleared during loading  |
+| Paging         | System handles, but `ENTER` quirk needs fix | Program must handle        | `PAGEUP` system, `PAGEDOWN` program, `ENTER` quirk needs fix |
+| Memory Usage   | Highest (loads all at once)                 | Lowest (only one page)     | Medium (grows over time)       |
+| Complexity     | Simplest                                   | Medium                     | Medium                         |
+
+**Which to Choose?**
+
+*   **Load-All:** Best for small datasets where simplicity is key.
+*   **Single Page:** Best for very limited memory situations or when you need very fine control over paging.
+*   **Expandable:** A good compromise for medium-sized datasets, offering reasonable performance and relatively simple implementation.
+
+
 
 #### Subfile Steps:
 

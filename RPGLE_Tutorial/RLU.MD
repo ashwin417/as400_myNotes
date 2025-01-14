@@ -13,10 +13,9 @@
 
 ### Steps in RLU
 1. **Start RLU**: Use the `STRRLU` command to start the RLU for a specific source file.
-2. **Define Records**: Use `DR` to define records and `VR` to define variable fields.
+2. **Define Records**: Use `DR` to define records and `VF` to define variable fields.
 3. **Set Attributes**: Set attributes such as type (`*File`) and `PRTF` for printer files.
 4. **Add Keywords**: Use various keywords like `OFLIND`, `SPACEB`, `SPACEA`, `SKIPA`, and `SKIPB` to control the layout and formatting.
-
 
 
 ### Command `STRRLU`

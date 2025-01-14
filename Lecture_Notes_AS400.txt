@@ -25,9 +25,9 @@ source in src
 - To create a source physical file => crt src pf => crtsrcpf
 
 
-Naming standards for source file => QDDSSRC (For DDS file), QRPGLSRC, QCLSRC (CL Src) - TO STORE STRUCTURES AND SYNTAX OF A FILE... ITS LIKE A REPOSITORY
+Naming standards for source file => QDDSSRC (For DDS - Data description specifications (DDS) file), QRPGLSRC, QCLSRC (CL Src) - TO STORE STRUCTURES AND SYNTAX OF A FILE... ITS LIKE A REPOSITORY
 
-qtemp - Temporary buffer library
+qtemp - Temporary buffer library. Created for any job but will be created and used only for that specific job.
 
 ---- CREATING DATABASE FILES ----
  TWO WAYS: 
@@ -408,6 +408,7 @@ SUBFILE STEPS:
 	- SWITCH ON THE SFLCLR INDICATOR
 	- WRITE CONTROL PART
 	- SWITCH OFF CLEAR INDICATOR
+			it is done to prevent problems in next iteration.
 	
 2. LOADING DATA FROM DB FILE INTO SUBFILE
 
@@ -457,7 +458,7 @@ LEAVESR => EXIT THE SUBROUTINE.
 
 READC => TO READ FROM SUBFILE. if subfile is empty... then should not process this.
 
-SFLNXTCHG => WHILE UPDATING RECORDS IN SUBFILE, TO NOT TO CARRY THE PREV TO NEXT RECORD.
+SFLNXTCHG => WHILE UPDATING RECORDS IN SUBFILE, TO NOT TO CARRY THE PREV TO NEXT RECORD. INDICATOR 81
 
 dspjoblog => to debug during compile time. have 'd' and get dump in spool file and check it.
 
@@ -614,5 +615,167 @@ Clear in opcode and mention the ds in result column.
 
 -------------------------------- DAY 14 - 8TH JAN 2025 --------------------------------------------------------------
 
+Two other types of DS are:
+1. Indicator DS
+2. Data area DS.
+	data areas are some objects 
+	
+- Pre run time array
+	For flatfile,   
+		- use `T` in file designation (which indicates it as a array or a table
+		- use `F` for file format.
+		- record length as 50
+		
+		- define array, with type as s size as same of record, here 50 and dim (5) . use keyword `fromfile(flatfile)`
+		
+		
+-------------REPORT LAYOUT UTILITY (RLU) ------------------------
+		
+
+COMMAND IS `STRRLU` AND GIVE PROMPT.... GIVE SOURCE FILE AS `QDDSSRC` AND LIBRARY, GIVE FILE NAME AND OTHERS DEFAULT ONE.
+To define record, make a line and on the line numbers, type `DR`
+F11 to define fields.
+Type will be *File, attribute will be PRTF
+
+OPTION 19 TO GET INTO RLU FROM DDSSRC 
+
+OVERFLOW INDICATOR WILL BE SWITCHED ON WHEN PAGE IS COMPLETED. KEYWORD 'OFLIND()' GIVE IN KEYWORD OF FILE.
+SPACEB() => SPACE BEFORE
+SPACEA() => SPACE After. IT WILL ADD BLANK LINES AFTER PRINTING.
+SKIPA() => IT WILL GO TO NEXT LINE SKIPPING THE FIRST LINE OF THE RECORD.
+SKIPB()
+THESE CAN BE FOUND IN PRTF PAGE. THESE KEYWORDS ARE AT BOTH RECORD AND FIELD LEVEL.
+
+-------------------------------- DAY 15 - 9TH JAN 2025 --------------------------------------------------------------
+Error Handling :
+
+1. Here we use 'Monitor' here for error handling (instead of Try in other languages)
+	Put the code between Monitor and EndMon that to be tried.
+	While put 'On-Error' as opcode to catch the error before the EndMon.
+
+2. Using extender 'e' for file.
+	Give (e) with file opcodes. like e.g. delete(e)
+	then check if %error() and display the message.
+	%STATUS() CAN BE ALSO USED.
+	
+	
+3. IN RPG 3, THERE WASNT MONITOR AND E ... DURING THOSE TIME, WE USED INDICATORS FOR HANDLING.
+		CONSIDER THE WRITE STATMENT AND GIVE PROMPT, THERE WILL HI AND LO... GIVE LO AS 99, WHICH WILL WORK IF THERE IS ERROR.
+	
+4. *PSSR - PROGRAM STATUS SUBROUTINE
+	WHEN PROGRAM ENDS ABNORMALLY, CONTROL WILL GO TO PSSR AND ERROR CONDITIONS WILL BE HANDLED THERE. IT CAN BE HANDLED ONLY BY ENDSR. IT CAN BE USED FOR LOGGING ERRORS. 
+	C *PSSR 	BEGSR
+	C 'ERROR' 	DSPLY
+	C 			ENDSR   '*CANCL'
+	
+	*CANCL WILL END THE PROGRAM. 
+	*RETRY WILL RETRY TO RUN Again
+	*GETIN 
+	
+5. INFSR - FOR FILE LEVEL. INFSR IS A KEYWORD NOT A SUBROUTINE UNLIKE *PSSR.
+
+		FFILENAME 	IF 	E 		A DISK 			INFSR(SR) 
+		
+	SR SHOULD GET EXECUTED WHEN THERE IS FILE ISSUE.
+	SR CAN BE REPLACED BY *PSSR TOO.
+	
+----------------------------------------------------------------
+
+RETURN VS INLR 
+
+INLR => ALL THE FILES WILL BE CLOSED, CLEAR THE MEMORY.	
+RETURN => CLOSING WILL NOT HAPPEN, VARIABLE VALUES WILL NOT BE CLEARED UNLIKE INLR. IT WILL CONFLICT WITH OTHER PROGRAM LIKE IF NEXT PROGRAM DONT HAVE INTIALIZATION FOR THOSE VARIABLES USING AGAIN, IT WILL RETAIN THE VALUE OF PREV PROGAM.
+			ADVANTAGE OF RETURN
+			
+-------------------------------- DAY 16 - 10TH JAN 2025 --------------------------------------------------------------
+%EDITC() - TO CONVERT DEC/INT TO CHARACTER ALONG WITH SOME CONSTRAINTS LIKE -, * , POINT... ETC
+CURSYM IS TO ADD CURRENCY SYMBOL. BY DEFAULT IT IS DOLLAR, YOU CAN CHANGE IT AS PER NEED.
+	
+COMPILER DIRECTIVES:
+
+/COPY VARIABLE.... E.G. MAKE A RPGLESRC FILE 'COPYBOOK' WITH ONLY DEFINITION OF A VARIABLE.THEN GO TO A RPGLE SOURCE CODE AND USE `/COPY COPYBOOK` . WHEN YOU COMPILE, THE VARIABLE WILL BE INCLUDED IN THAT PROGRAM.
+THIS CAN BE USED TO DEFINE SUBROUTINE, FILE SPEC ETC AS PER NEED. JUST NEED TO USE IT AT CORRECT POSITION AS PER NEED. LIKE IF DEFINITION, IT SHOULD BE AT STARTING OF THE CODE WHILE FOR SUBROUTINE, IT SHOULD BE AT THE END OF THE PROGRAM.
+
+TO TAKE FROM OTHER SOURCE FILE LIKE QCPYSRC, USE `/COPY *LIBL/QCPYSRC,COPYBOOK`
+
+/INCLUDE CAN ALSO BE USED INSTEAD OF /COPY. FOR RPGLE ITS SAME, BUT WHILE EMBEDDED SQL, IT WILL BE DIFFERENT.
 
 
+------------------
+
+REPORT USING O-SPEC
+
+IN RPLGE, USE O<FILENAME> GIVE FILE TYPE AND DEVICE AND KEYWORDS SAME, GIVE FILE FORMAT AS F AND RECORD LENGTH (WHAT IS MAXIMUM LENGTH POSSIBLE FOR EVERY SPEC)
+HERE WE HAVE TO USE 'EXCEPT' AS WE HAVE TO DECLARE THE RECORDS AS AN EXCEPTION. IT IS USED FOR WRITING INTO PROGRAM DESCRIBED FILES.
+E.G. C 			EXCEPT		HEADER
+
+AFTER COMPLETING C SPEC. THEN UNDER C SPEC... DEFINE O-SPEC, THEN,
+	DEFINE FILE NAME. E.G. OSPECRPT WITH O-SPEC TAG.... TYPE AS E AND EXCEPTNAME AS 'HEADER' (AS NEEDED)
+	NEXT LINE, GIVE THE CONSTANT('EMPLOYEE REPORT'), AND END POSITION LIKE 25
+	NEXT LINE, NEXT CONSTANT(PAGE)... 
+	NEXT LINE, TO GIVE FIELD TO GET DATA(PAGE), GIVE PAGE IN FIELD NAME... AND END POSITION AS +2, AND FIELD FORMAT AS 'S'
+	
+	TO DEFINE NEXT RECORD, DO SAME LIKE WITH O AND E WITH TYPE AND HEADING, 
+	
+	skipa(2) - after printing the record, it will skip to the line.
+	skipb()- it will skip before printing.
+	provide in keyword of the fields like headings etc...
+	
+	
+	
+-------------------------------- DAY 17 - 11TH JAN 2025 --------------------------------------------------------------
+	CRTPRTF - TO CREATE PRINTER FILE AND THEN COMPILE THE RPGLE.
+
+WHILE DEBUGGING BREAK EMPNO = 95 TO JUST GO TO THAT LINE AND DEBUG ONLY THAT LINE TO CHECK IF THERE IS PROBLEM THERE WHILE IN A Loop, RATHER THAN STEPPING THE WHOLE BIG LOOP.
+BREAK 11 WHEN EMPNAME 'T'
+
+DSPMODSRC - TO GET DEBUG WINDOW DISPLAYED AND FROM HERE YOU CAN WORK AND CONTINUE IF YOU DIDNT CHANGE COMPLETELY, OTHERWISE ONLY ENDDBG.
+CONDITIONAL BREAKPOINT.
+
+KLIST - FOR MULTIPLE KEY LIST
+
+-------------------------------- DAY 18 - 13TH JAN 2025 --------------------------------------------------------------
+
+USING *ENTRY WHILE RUNTIME PARAMETER ENTRY... IT TAKES WHEN THAT PROGRAM IS RAN. WHILE IF WE USE SOMEOTHER LIST NAME... IT WILL TAKE FROM ANOTHER FILE.
+*INZSR FOR INTIALIZATION SUBROUTINE. IT WILL AUTOMATICALLY EXECUTED, NO NEED TO EXECUTE USING EXSR.
+
+COMPOSITE KEY:
+use kfile.
+
+free format...
+older version needed /free and /end-free for writing free format, now it is not needed.
+need ; after every line.
+default date format is ISO. to change it you can give in H spec with in HDATFMT(*MDY) 
+Can override date format in D level also... with the variable, give keyword DATFMT(*ISO) .... *ISO means format as needed. this will change only that field date.
+
+without seperator between dates like -,/ .... give at c level.... like date 1 = %date(char2:iso0) .... 0 is needed if there is not seperator. 
+MDY format => mmddyy
+usa => mmddyyyy
+
+tO ADD DAYS TO A DATE... DATE2= DATE + %DAYS(20)
+FOR MONTHS %MONTHS(), FOR YEARS, %YEARS()
+
+-------------------------------- DAY 19 - 14TH JAN 2025 --------------------------------------------------------------
+What all we read now are native rpg IOs(read, chain, setll etc)
+CL need all these RPG IOs, like it combines with these and does working. system creates a temperory object for each work of a user and stores in qtemp and uses it. 
+
+CL PROGRAMMING................................
+
+						RPGLE 							CL
+START OF PGM    		 								PGM
+FILE DECLARATION		F SPEC 							DCLF
+Variable DEF 			D SPEC VAR A, B, C				DCL , VAR &a,&b, &c
+operations				c-spec command eval 			CHGVAR
+END OF PGM 				*INLR='1' OR RETURN 			ENDPGM
+PARAMETERS				PLIST 							WE WILL ACCEPT IN PGM COMMAND
+ERROR HANDLING 			MONITOR OR %ERROR 				MONMSG
+CONCAT STRING 			EVAL STR= A+B 					CHGVAR &STSR VALUE(STRA||STRB)        CAN ALSO USE *CAT,*TCAT, *BCAT, CHGVAR *C VALUE(&A *CAT &B)
+														*CAT 								C 	FIRST   SECOND
+														*TCAN 								C	FIRSTSECOND  .................. NO SPACE
+														*BCAT 								C 	FIRST  		SECOND  ............EXTRA SPACE
+														
+SOURCE FILE: QCLSRC 
+FILE TYPE : CLP
+SENDMSG TO DISPLAY IN DSPMSG
+SENDBRKMSG TO DISPLAY IN SCREEN.														
+SNDBRKMSG  MSG(&C) TOMSGQ(*ALLWS)  => THIS WILL SEND MESSAGE TO ALL USERS IN THE WORKSTATION.

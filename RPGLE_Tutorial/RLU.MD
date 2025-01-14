@@ -82,3 +82,87 @@ C                   EVAL      *INLR = '1'
     - End the program with `*INLR = '1'`.
 
 
+## Creating a Report Using O-Spec in RPGLE
+
+To create a report using Output Specifications (O-Spec) in RPGLE, follow these steps:
+
+1. **Define the Printer File**:
+   - Use the O specification to define the printer file.
+   - Specify the file type, device, and keywords.
+   - Set the file format to `F` and specify the record length (maximum length possible depends on the system and the type of data being printed).
+
+2. **Declare Records Using EXCEPT**:
+   - Use the `EXCEPT` statement to declare the records as exceptions.
+   - This is used for writing into program-described files.
+   ```rpg
+   C           EXCEPT    HEADER
+   ```
+
+3. **Complete C Specifications**:
+   - Define the necessary logic in the C specifications.
+
+4. **Define O-Specifications**:
+   - Define the file name with the O-Spec tag.
+   - Set the type to `E` (exception) and specify the `EXCEPTNAME` as needed.
+   ```rpg
+   OOSPECRPT  E     HEADER
+   ```
+
+5. **Add Constants and Fields**:
+   - Define constants and specify their end positions.
+   - Define fields to get data and specify their end positions and formats.
+   ```rpg
+   O         EMPLOYEE REPORT                    25
+   O         PAGE                               +2 S
+   ```
+
+6. **Define Next Record**:
+   - Follow the same steps to define additional records with O-Spec and E-Spec, setting the type and heading.
+
+7. **Create and Compile the Printer File**:
+   - Use the `CRTPRTF` command to create the printer file.
+   - Compile the RPGLE program. You need to manually create the printer file before compiling.
+
+### Sample Program
+
+```rpg
+FEMPRPT5   O    F  100        PRINTER OFLIND(*IN91)                      
+FEMPF      IF   E           K DISK                                       
+ *                                                                       
+C                   EXCEPT    HEADER                                     
+C                   EXCEPT    HEADING                                    
+C                   READ      EMPF                                       
+C                   DOW       NOT %EOF()                                 
+C                   IF        *IN91 = '1'                                
+C                   EXCEPT    HEADER                                     
+C                   EXCEPT    HEADING                                    
+C                   ENDIF                                                
+C                   EXCEPT    DETAIL                                     
+C                   READ      EMPF                                       
+C                   ENDDO                                                
+C                   EVAL      *INLR = '1'                                
+ *                                                                       
+OEMPRPT5   E            HEADER                                           
+O                                           50 'EMPLOYEE REPORT'         
+O                                           75 'PAGE NO:'                
+O                       PAGE                85S                            
+O          E            HEADING     3                                      
+O                                           30 'EMPLOYEE NAME'             
+O                                           +2 'CITY'                      
+O          E            DETAIL                                             
+O                       ENAME               30                             
+O                       EMPCITY             +2                             
+O          E            END                                                
+****************** End of data ********************************************
+```
+
+### Explanation of Keywords
+
+- **OFLIND()**: Overflow indicator that switches on when the page is completed.
+- **SPACEB()**: Space before - adds blank lines before printing.
+- **SPACEA()**: Space after - adds blank lines after printing.
+- **SKIPA()**: Skip before - skips to the next line.
+- **SKIPB()**: Skip after - skips lines after printing.
+
+
+

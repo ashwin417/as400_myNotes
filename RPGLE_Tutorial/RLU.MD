@@ -1,3 +1,20 @@
+Report Layout Utility (RLU) is a tool in the IBM iSeries (AS400) environment used to create and edit printer files, known as report files. Here's a brief overview:
+
+Report Layout Utility (RLU)
+Purpose: RLU is designed to help users create and modify the layout of printed reports. It allows for the definition of record formats, fields, and various attributes required for report printing.
+
+Key Features:
+
+Interactive Design: RLU provides an interactive interface where users can define the layout of report fields.
+
+Field Definition: Users can define fields, specify attributes, and assign values for printer files.
+
+Record Formats: It allows for the creation of multiple record formats within a single printer file.
+
+Keywords: Supports various keywords such as OFLIND (overflow indicator), SPACEB (space before), SPACEA (space after), SKIPA (skip before), and SKIPB (skip after).
+
+Viewing: Users can view the layout of the report as it will appear when printed.
+
 
 ### Command `STRRLU`
 - **Command**: `STRRLU` (Start Report Layout Utility)

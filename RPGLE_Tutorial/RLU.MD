@@ -30,8 +30,14 @@ To define a record:
 2. Press `F11` to define fields.
 3. Set type to `*File` and attribute to `PRTF`.
 4. To add a Variable File (VF), follow similar steps:
-    - Type VR on the line numbers for a variable field.
+    - Type VF on the line numbers for a variable field.
     - Press F11 to define fields for the variable file.
+
+DR = To define this report line as a record format
+
+DRn = To define this report line and the next n lines as a single record format
+
+DRR = To define every line between and including this line and the next occurrence of DRR as a single record format
 
 ### Relevant Keywords
 - **OFLIND()**: Overflow Indicator - switches on when the page is completed.

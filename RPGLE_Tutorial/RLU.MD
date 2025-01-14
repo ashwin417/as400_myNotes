@@ -1,4 +1,3 @@
-Sure! Here's a brief explanation of the `STRRLU` command, the program you provided, and the relevant keywords:
 
 ### Command `STRRLU`
 - **Command**: `STRRLU` (Start Report Layout Utility)
@@ -62,5 +61,4 @@ C                   EVAL      *INLR = '1'
     - Write `DETAIL`, `BLANK`, and `TOTAL`.
     - End the program with `*INLR = '1'`.
 
-I hope this helps! If you have any more questions, feel free to ask. 😊
 

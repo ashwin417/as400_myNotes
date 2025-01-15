@@ -10,7 +10,7 @@ Have a look below for better understanding and view.
 * [Introduction](##Introduction)
 * [Creating Database Files](##Creating-Database-Files)
 * [Control Language](#CL)
-* [ERRORS_AND_SOLUTION](as400_myNotes/ERRORS_AND_SOLUTION.MD)
+* [ERRORS_AND_SOLUTION](ERRORS_AND_SOLUTION.MD)
 * [Cheatsheet for Commands](Cheatsheet.md)
 
 

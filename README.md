@@ -8,7 +8,7 @@ Have a look below for better understanding and view.
 
 ## Table of Contents
 * [Introduction](##Introduction)
-* [Creating Database Files](##Creating Database Files)
+* [Creating Database Files](##Creating-Database-Files)
 * [Control Language](#CL)
 - [Cheatsheet for Commands](Cheatsheet.md)
 

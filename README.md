@@ -883,9 +883,9 @@ Let's refine and explain the provided content about screen handling in CL, data 
 
 *   **`IN` and `OUT` Opcodes:**
     *   **`IN` (Retrieve):** The `IN` opcode retrieves data from a data area. You *must* define the data area in the D-spec (Definition Specification) with the `DTAARA` keyword.
-        *   **Same Name:** If the RPGLE variable has the same name as the data area, you can simply use `IN DTAARA`.
-        *   **Custom Name:** If you want to use a different name for the RPGLE variable, use `IN DTAARA(data-area-name)`.
-        *   **Locking (Exclusive Access):** To update a data area, you *must* lock it for exclusive access using `IN *LOCK data-area-name`. This prevents other programs from modifying the data area while you're updating it.
+        *   **Same Name:** If the RPGLE variable has the same name as the data area, you can simply use `DTAARA`.
+        *   **Custom Name:** If you want to use a different name for the RPGLE variable of data area, use new name in D Spec but use  `DTAARA(data-area-name)`in its keyword.
+        *   **Locking (Exclusive Access):** To update a data area, you *must* lock it for exclusive access using `*LOCK	IN data-area-name`. This prevents other programs from modifying the data area while you're updating it.
     *   **`OUT` (Update):** The `OUT` opcode writes data to a data area.
 *   **Data Structure Approach:**
     *   **`DS` Type `U`:** Define a data structure with type `U` (for data area). Use the `DTAARA` keyword.

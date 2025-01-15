@@ -40,7 +40,7 @@
 
      CHECK IF THE LIBRARY AND FILE NAME IS CORRECT.
 
-'CPD0732 40  Length specified is too long for variable type.'
+`CPD0732 40  Length specified is too long for variable type.`
 
      CHECK IF THE LENGTH OF PARAMETER IS SAME AT FILES AND PROGRAM.
 

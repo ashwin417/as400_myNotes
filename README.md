@@ -7,12 +7,13 @@ There could be mistakes; you are free to correct me. Thank you!
 Have a look below for better understanding and view.
 
 ## Table of Contents
-= RPGLE Programs
-- Readme.md (Notes main)
+* [Introduction](##Introduction)
+* [Creating Database Files](##Creating Database Files)
+* [Control Language](#CL)
 - [Cheatsheet for Commands](Cheatsheet.md)
 
-# Day 1 - 23 Dec 2024
 
+## Introduction
 - **IBM i**: A machine designed to replace mainframes at a lower cost.
 - **OS**: OS400
 - **Database**: DB2
@@ -146,8 +147,6 @@ If there is a file of RPGLE, it will be kept in `qrpgsrc` or `qrpglsrc`, like th
 - `CRTSRCPF `
 
 
-## Day 2 - 24 Dec 2024
-
 ### Creating a Library and Source Physical File
 
 - Create a library:
@@ -228,7 +227,6 @@ If there is a file of RPGLE, it will be kept in `qrpgsrc` or `qrpglsrc`, like th
   DLTOBJ OBJ(ashlib/<FILE>) OBJTYPE(*FILE)
   ```
 
-## Day 3 - 26 Dec 2024
 
 ### Operators and Keywords
 
@@ -776,6 +774,7 @@ A detailed differentiation table for `READ`, `READE`, `READP`, and `READPE` oper
         ****************** End of data **********************************************************************************
 ```
 
+# CL
 ### RPG IOs and CL Programming in AS400
 
 **RPG IOs (Read, Chain, Setll, etc.)**  

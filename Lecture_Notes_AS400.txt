@@ -30,24 +30,24 @@ Naming standards for source file => QDDSSRC (For DDS - Data description specific
 qtemp - Temporary buffer library. Created for any job but will be created and used only for that specific job.
 
 ---- CREATING DATABASE FILES ----
- TWO WAYS: 
- 
- 1) DDS WAY : 
+ TWO WAYS:
+
+ 1) DDS WAY :
 	Two types of files : Physical files(Contains actual data) and Logical files(View on physical file  data Like Views/indexes in sql , can be built on one physical file or multiple physical files too)
-	COMMANDS: 
+	COMMANDS:
 		1. Prompt => WRKMBRPDM
 		2. File : QDDSSRC
 		Clicking F6, it will go to SEU
 		MBR => ACCOUNTPF
-		
-		
+
+
 		Requirement of Physical File
 		(Key)ACCOUNTNO - NUMERIC MAX LENGTH: 10
 			ACCOUNTNAME - CHAR 50
 			ADDRESS - CHAR 100
 			ACNTBAL - NUMERIC 10,2 (Account Balance can to be in decimal too)
-			
-		SYNTAX: 
+
+		SYNTAX:
 			1. FILE LEVEL ENTRIES
 				(Not a mandatory entry, contains only functions/Keywords)
 			2. RECORD LEVEL ENTRIES
@@ -66,33 +66,33 @@ qtemp - Temporary buffer library. Created for any job but will be created and us
 			To save and continue - type 'save' in SEU => line
 	--- Create an object by compiling the source member ---
 		Go back to PDM, add Opt as 14 to compile
-		Check 'WRKOBJ' to see the object files. 
-				
+		Check 'WRKOBJ' to see the object files.
+
 	--- To Enter Data(Row) => Command 'UPDDTA ACCOUNTPF' (To change according to some account no. enter the number in acc no. field and click F5 in format.), New Entry => F10
 	--- To view the entered data => 'RUNQRY *N ACCOUNTPF'
 	DFU HELPS UPDDTA IN THE BACKEND
-	
- 2) SQL/DDL : 
-	To start sql, use 'strsql' and press ENTER , SQL SESSION will appear and add your sql queries. If you don't know syntax, use F4 to prompt and make query. 
-	Retrieve F9 can be used to get the used line again. Keep the cursor on the Query to be repeated and  click F9, that query will appear. 
 
---- For primary key, in DDS, it should be explicitly mentioned to get it unique, else it won't be just being key. 
-	Go to PDM, use EDIT (OPT 2), before the file level, make a line and in functions add 'UNIQUE'. Then Compile. 
-	
+ 2) SQL/DDL :
+	To start sql, use 'strsql' and press ENTER , SQL SESSION will appear and add your sql queries. If you don't know syntax, use F4 to prompt and make query.
+	Retrieve F9 can be used to get the used line again. Keep the cursor on the Query to be repeated and  click F9, that query will appear.
+
+--- For primary key, in DDS, it should be explicitly mentioned to get it unique, else it won't be just being key.
+	Go to PDM, use EDIT (OPT 2), before the file level, make a line and in functions add 'UNIQUE'. Then Compile.
+
 --- After compile, new object is created and so the data will be erased. To avoid that, just backup the data.
 
 ---- Sample Logical File ----
 	Need of logical file : Take an example of where there is a table with empno and empcity. empno is Key. you want to get emp data according to city so now you want to make empcity as key to order it. If we just change key here, it will affter other programs. Instead make a logical view and make empcity as key and work on it.
 	i.e 1) Order of retrieval of records
 		2) Select or omit
-		3) If need a lesser no. of limits, or want to get data from multiple physical files. 
+		3) If need a lesser no. of limits, or want to get data from multiple physical files.
 --- CREATING LOGICAL FILE:(CITY as key)
 	Go to PDM, click F6, Create a source adding LF type and all(ACCOUNTLF as name). Get into Edit => prompt type = R, Record Name = ACCOUNTR(Exactly same as physical filename), in functions add "PFILE(ACCOUNTPF)" (to know which is the physical file)
 	Next line, add Type K, name 'CITY'. (No need of file level entry since we need all the fields)
 	Compile it. then 'RUNQRY *N ACCOUNTLF'
-	- If we update the logical file, it will update Physical file too. i.e. Logical file create an access path to physical file. 
-	
-	
+	- If we update the logical file, it will update Physical file too. i.e. Logical file create an access path to physical file.
+
+
 
 -------------------------------- DAY 2 - 24 DEC 2024 --------------------------------------------------------------
 
@@ -114,12 +114,12 @@ key level - k
 select/omit level - s or o
 
 
-Logical file will show error due to library being to default while compiling. To solve it, use `CHNCURLIB` command and make your library as the current library and then compile. 
+Logical file will show error due to library being to default while compiling. To solve it, use `CHNCURLIB` command and make your library as the current library and then compile.
 
 TO debug error
 wrksplf - To check all spool files created by interactive job.
 Select assistance level or F21 , and change it to 2 intermediate
-Give 5 in opt to display and then give B in control to get to bottom of the file as the error will be present at end of the file. 
+Give 5 in opt to display and then give B in control to get to bottom of the file as the error will be present at end of the file.
 
 Command to delete spool file - DLTSPLF * Select
 
@@ -132,7 +132,7 @@ command to display all the dependent files (especially logical file object) is d
 dltobj to delete objects, object type will be *file
 
 -------------------------------- DAY 3 - 26 DEC 2024 --------------------------------------------------------------
-Operators 
+Operators
 
 COMP EQ/GT
 CMP
@@ -142,7 +142,7 @@ LIST
 give this when using S/O type to compare and select the fields in the function field.
 e.g. CMP(EQ 'HYD')
 
-With dynamic select, it happens at run time. It happens after the system runs and identifies all. 
+With dynamic select, it happens at run time. It happens after the system runs and identifies all.
 
 if need to have lowercase value, go to edit change source settings "Change session defaults" or F13. Then change uppercase input only to N.
 
@@ -151,12 +151,12 @@ for join, if need to take a common field into the output, use jref() and mention
 Data types in DDS
 
 	A: character
-	P : Packed Decimal ... default ( 2 digit occupy 1 byte ) 5 or 6 bytes 
+	P : Packed Decimal ... default ( 2 digit occupy 1 byte ) 5 or 6 bytes
 	S: Zoned decimal (1 digit occupy 1 byte) 10 bytes
 	L : Date
 	t: time
 	z: timestamp
-	
+
 Keywords / Functions:
 
 File level : UNIQUE, Fifo, lifo, fcfo, DYNSLT, JDFVAL
@@ -168,11 +168,11 @@ Key Level : ABSVAL(Absolute value), ALIAS, DESCEND
 ------  SQL
 
 Can be done using strsql, but we do with creating file in QSQLSRC for future alterations easy way.
-Create src file QSQLSRC. 
+Create src file QSQLSRC.
 create source member for sql type.
-sql cannot be compiled using 14 opt here. To execute SQL, use command RUNSQL STM, give commitment control as none. 
+sql cannot be compiled using 14 opt here. To execute SQL, use command RUNSQL STM, give commitment control as none.
 NOT NULL WITH DEFAULT is added because when we insert data only to specific columns and others are left with nothing, sql will assign default value like 0 for int, space for text instead of NULL, which will cause problem with RPG programming.
-You have to delete the table if you want to update the table. Because create table can only be done once. 
+You have to delete the table if you want to update the table. Because create table can only be done once.
 
 
 ASSIGNMENT : CREATE STUDENT TABLE AND MARKS TABLE, ENTER DATA.... ROLLNO, TOTAL MARKS, MARKS OBTAINED, PERCENTAGE... CREATE A VIEW.
@@ -181,13 +181,13 @@ create a view on transaction table showing acc no, acc name, total transaction a
 
 -------------------------------- DAY 4 - 27 DEC 2024 --------------------------------------------------------------
 
-Adding record format in sql. 
+Adding record format in sql.
 while creating table add rcdfmt <name> at the end.
 it is not technical req for sql, but can be used for rpg opcodes. tHIS IS equivalent to R type entry in DDS.
 
-CLOB, GLOB, BLOB are datatypes used for bigger size. 
+CLOB, GLOB, BLOB are datatypes used for bigger size.
 
-in case if we get null value in the query add, ifnull(fieldname, value in case of null) function. 
+in case if we get null value in the query add, ifnull(fieldname, value in case of null) function.
 
 -------------------------RPG Programming--------------------------------------------------------------------
 - Report Program Generator
@@ -200,7 +200,7 @@ RPGLE Specifications
 	H - Control Specifications : Controls the way the program is created and how it will behave. e.g. DATFMT(*MDY) can be compiled the way we want.
 	F - file specification : All file declarations happens here.
 	D - Definition Specifications: Variables are declared here, including procedures, data structures
-	C - Calculation spec: All the operations will be coded here. Reading, writing records, etc all will be here. 
+	C - Calculation spec: All the operations will be coded here. Reading, writing records, etc all will be here.
 	P - Procedure spec for RPG ILE : To deal with procedures of diff langs
 	O - Output spec
 
@@ -208,7 +208,7 @@ RPGLE Specifications
 
 End of code:
 RETURN OPCODE IS USED TO END THE PROGRAM
-Indictor variables - switch on last record indicator at the end => EVAL *INLR = '1' . IN is standard for indicators. 
+Indictor variables - switch on last record indicator at the end => EVAL *INLR = '1' . IN is standard for indicators.
 can use either of them
 
 compile using 14 ... i.e crtbndrpg
@@ -226,7 +226,7 @@ ALTERNATIVE TO IF ELSE => select when
 
 syntax:
 
-Select 
+Select
 	When condt1
 		execute
 	when condt2
@@ -234,11 +234,11 @@ Select
 	OTHERS
 		execute
 	Endsl
-	
+
 	use this only when you want to satisfy only 1 condt
-	
+
 TO INPUT A NUMBER through CL: `CALL PGM(ASHLIB/CALC4) PARM(('+') (5 (*DEC 10 0)) (4 (*DEC 10 0)))`
-OR 
+OR
 `CALL PGM(ASHLIB/CALC3) PARM(('-') (X'00000000005F') (X'00000000004F'))`  make the length 10 and F indicates signed bits... total bits should be even including F... if not add a 0 there
 
 
@@ -254,10 +254,10 @@ O - for output like for printer
 C - combine type, used for screens
 U - to update.
 
-for Database we majorly use I and U. 
+for Database we majorly use I and U.
 
 Then enter file designation: F, it will act based on the procedures in the program
-End Of File is not needed 
+End Of File is not needed
 File addition : A - allows to add but not update. but blank space wont allow add too.
 leave seq no.
 File Format: give E to indicater externally
@@ -310,33 +310,33 @@ Use ? to change decimal types.
 WRKUSRJOB - gives details of all the job of a particular user and can end it.
 wrkusrjob status(*ACTIVE) to get all the active jobs.
 
-TO CUT AND PASTE IN THE SCREEN, -<CONTENTHERE>- TO CUT AND PUT = WHERE YOU HAVE TO PASTE. FOR COPY USE == 	
+TO CUT AND PASTE IN THE SCREEN, -<CONTENTHERE>- TO CUT AND PUT = WHERE YOU HAVE TO PASTE. FOR COPY USE ==
 
 go change colors give * on left of the variable and enter
 
 Subroutines - to divide programs. Created after last statement.
  - it starts with begsr Operation code, give factor 1, and ends with ENDSR
  - to execute subroutine, give operation code exsr <name at factor 2> in main line code.
- 
+
  If there is f12 to exit in every SR... switch of the indicator.
  'ITER' for continuing the loop(opposite of leave) i.e. to move the control to the first line of loop.
- 
+
  Use reverse indicator to highlight the error and add a indicator value of any number like 87. in program... during other or else statement add '*in87 = on'. make it off after exfmt.
- 
+
 -------------------------------- DAY 8 - 1ST JAN 2025 --------------------------------------------------------------
 H SPEC Keywords:
-HOPTION(*NODEBUGIO:*SRCSTMT:*NOUNREF), 
+HOPTION(*NODEBUGIO:*SRCSTMT:*NOUNREF),
 ALWNULL(*USRCTRL)
 
 DSPEC KEYWORD :
  INZ TO INTIALIZE INZ(<VALUE HERE>
  Declearing constant, use type 'C' and in keywords, use CONST('abc')
- LIKE used to refer a variable to another variable. e.g refering a variable in a file. 
+ LIKE used to refer a variable to another variable. e.g refering a variable in a file.
  e.g DWEPMNO	S 					LIKE(EMPNO)
- 
- 
+
+
  ------------------------------------
- 
+
 JOURNALLING - TO ANALYZE THE FILES OF THE PROJECT. WAY TO LOG THE DATABASE TRANSACTIONS AND UPDATES.
 HOW TO JOURNAL?
 
@@ -348,56 +348,56 @@ TO DO COMMITMENT CONTROL, JOURNELLING IS NEEDED.
 1. CREATING A JOURNAL RECIEVER => CRTJRNRCV
 2. CREATE A JOURNAL => CRTJRN
 3. START JOURNAL PF => STRJRNPF
- 
+
  ONE JOURNAL CAN BE ATTACHED TO MULTIPLE PF. USE BOTH FOR RECORD IMAGES TO INCLUDE UPDATES.
- 
+
  DSPJRN TO CHECK THE JOURNAL
  YOU CAN USE DSPFD TO CHECK WHAT JOURNAL IS LINKED TO YOUR FILE.
- DBUJRN - IT WILL GIVE STRUCTURED DB. 	
- 
+ DBUJRN - IT WILL GIVE STRUCTURED DB.
+
  JF AND JM IS GIVEN BY STRJRN COMMAND. IT CAN BE IGNORED.
  PT/PX - INSERT ENTRY. I.E. BOTH OF THEM REFERS TO INSERT ENTRY IN THE PF.
  UB - BEFORE UPDATES
  UP - AFTER UPDATES
  DL - DELETE RECORD
- 
- 
+
+
  Journal is useful to understand which program, which user, what updates all happened.
- 
+
  WHEN JOURNAL THRESHOLD GET FILLED... IT WILL AUTOMATICALLY CREATE NEXT NEW JOURNAL RECIEVER LIKE JRNRCVEG01, JRNRCVEG02 AND SO ON AS GETTING FILLED UP.
- 
+
  IN DSPJRN() SCROLL DOWN, CHANGE  Starting journal receiver  TO   *CURCHAIN.
- 
+
  TO GET OUTPUT IN A FILE, SCROLL DOWN TO FILE IDENTIFIER AND GIVE THE FILE NAME IN OUTPUTFILE.
- 
+
  TO END JOURNALLING OF A PhysicalFILE USE, ENDJRNPF
- 
+
  -----JOURNAL DONE--------------------------------------------------------------------
- 
+
  CONSTRAINTS:
- 
+
  CONSTRAINTS ARE THE WAY TO ENFORCE INTEGRITY INTO THE DB TABLES.
- 
+
  TO ADD CONSTRAINTS IN A Physical FILE, ADDPFCST
  TO REMOVE, => RMVPFCST
- 
+
  prikey works as primary key like Unique in PF
  REFKEY works as foriegn key.
  -----------------------------------------------------
- 
+
  Subfiles - tabular arrangement of records.
- 
+
  design a screen, make the record type as 'SFL'
  create empctl and sfl...
  in empctl, add indicators for SFLDSP, SFLDSPCTL,SFLCLR,SFLEND (these thing shows the table we see after giving wrkmbrpdm) IN GENERAL KEYWORDS.
- 
+
  by clicking more.... SFLSIZ  = total no of record that i can add in subfile records.
  - load all subfile => entire is loaded from db at once ... max limit = 9,999
  - single time - only at one go, a page is loaded, when it is down, then next set is loaded.
  - extendedible/elastic - only one page is loaded, prev page will be buffered in the memory.
- 
+
 create layout in ctl and then go to sfl to add output fields
-ADD OVERLAY KEYWORDS IN CTL 
+ADD OVERLAY KEYWORDS IN CTL
 
 EXAM - DDS AND RPGLE PROGRAM(SUBROUTINE, SCREENS...ETC) 2ND JANUARY 2025
 
@@ -409,38 +409,38 @@ SUBFILE STEPS:
 	- WRITE CONTROL PART
 	- SWITCH OFF CLEAR INDICATOR
 			it is done to prevent problems in next iteration.
-	
+
 2. LOADING DATA FROM DB FILE INTO SUBFILE
 
     - USE *LOVAL SETLL EMPF
 				READ    EMPF
-				
-	RRN = 0			
+
+	RRN = 0
 	DOW NOT EOF()
 	POPULATE SUBFILE FILE FIELDS(SEMPNAME = EMPNAME...)
 	WRITE EMPF
 	RRN = RRN+1
 	READ EMPF
 	ENDDO
-	
+
 	RECORD NOS WILL BE REPRESENTED BY RRN(RELATIVE RECORD NUMBER)
-	
+
 3. DISPLAYING SUBFILE
 
 	- WRITE FOOTER
 	- SWITCH ON SFLDSP & SFLDSPCTL
 		SFLDSP - SWITCH ON ONLY WHEN THERE ARE RECORDS TO DISPLAY(REFER RRN)
 		SFLDSPCTL - SWITCH ON ALL THE TIME.
-		
+
 	IF RRN>0
 		SWITCH ON SFLDSP AND SFLEND
 	ENDIF
 	EXFMT CONTROL PART.
-	
+
 	NO NEED TO SEPERATELY EXFMT FOR SUBFILE.
-	
+
 	WHY OVERLAY? => WHEN WE GIVE EXFMT, IT REMOVES PREVIOUS SCREEN AND BRING NEW... WHEN ADDING OVERLAY, IT WILL KEEP THE FILLED PART OF FOOTER AND THEN BRINGS CTL IN EMPTY PART
-	
+
 USE SFILE() - TO LINK RRN TO SUBFILE .... SYNTAX: SFILE(EMPSFL:RRN) WHILE GIVING FILE SPEC
 
 -------------------------------- DAY 9 - 2ND JAN 2025 --------------------------------------------------------------
@@ -454,11 +454,11 @@ TO EDIT CAN GO TO QDDSSRC, GO TO RESPECTIVE DSPF FILE AND EDIT IT.
 
 YOU CAN GIVE SAME NAME IN BOTH SCREEN AND RPGLE FOR VARIABLES. SO IN RPGLE, YOU DONT NEED TO GIVE EVAL SEMPNO = EMPNO ... ETC SEPERATELY. SO INCREMENT RRN AND WRITE INTO FILE.
 
-LEAVESR => EXIT THE SUBROUTINE. 
+LEAVESR => EXIT THE SUBROUTINE.
 
 READC => TO READ FROM SUBFILE. if subfile is empty... then should not process this.
 
-SFLNXTCHG => WHILE UPDATING RECORDS IN SUBFILE, TO NOT TO CARRY THE PREV TO NEXT RECORD. INDICATOR 81
+SFLNXTCHG => WHILE UPDATING RECORDS IN SUBFILE, TO NOT TO CARRY THE PREV TO NEXT RECORD. INDICATOR 81 ... MDT INDICATOR WILL BE TURNED OFF BY READC, SO NXTCHG IS USED.
 
 dspjoblog => to debug during compile time. have 'd' and get dump in spool file and check it.
 
@@ -466,7 +466,7 @@ INDEXES ARE USED FOR FASTER ACCESS
 index syntax:
 select fld1, fld2 , fld3 from file 1 join file2 (keyfields)
 
-to delete object in sql, 3 ways.... 
+to delete object in sql, 3 ways....
 -wrkobj
 -dltf
 -drop => remove table/index/view objects from system.
@@ -476,7 +476,7 @@ CHGPF => this will change pf object by looking change in member (dds). it can ch
 to change structure need to give Source file in CHGPF(f4). to change attributes(max size members), no need to give Source file.
 
 Flat files - Files without any structure. it is used more when a system to send one system to another system.
-crtpf - prompt and give the record length with file name for making a flat file. 
+crtpf - prompt and give the record length with file name for making a flat file.
 to add, we can use upddta.
 to delete in sql, can use delete query.
 clrpfm from CL to delete data from flatfile. same as delete in sql query.
@@ -489,19 +489,19 @@ IF WANT TO MAKE CHANGES IN THAT QUERY, SAME WRKQRY COMMAND, JUST SELECT CHANGE O
 
 - USING RUNQRY WITHOUT *N, MEANS TO RUN A QUERY
 
-RUNQRY OPTIONS : 
+RUNQRY OPTIONS :
 PRINTER- WE CAN FIND IT IN WRKSPLF
 OUTFILE - IT GIVES THE OUTPUT INTO A FILE AND CAN BE VIEWED BY SQL WITH THE OUTFILE NAME.
- 
- 
+
+
 -------------------------------- DAY 10 - 3RD JAN 2025 --------------------------------------------------------------
 
-REF and REFFLD - are functions used when clicked f10 in subfile of screen. 
+REF and REFFLD - are functions used when clicked f10 in subfile of screen.
 
 ----CL-----------
 Control language program
 
-basically any job or process have starting program as CL program and it will call rpg. 
+basically any job or process have starting program as CL program and it will call rpg.
 source file - QCLSRC
 
 Same sequence :
@@ -509,8 +509,8 @@ Same sequence :
 Start of program : 				PGM
 
 1. file declarations :   		DCLF <FILENAME> COMMAND
-- (CL doesnt have any direct 
-command to update delete etc. 
+- (CL doesnt have any direct
+command to update delete etc.
 It will just directly read.)
 2. Variable declarations		DCL COMMAND
 3. processing 					CHGVAR (Change variable)
@@ -521,7 +521,7 @@ Between PGM and ENDPGM, all program will be done. Technically it is not mandator
 Every variable will be represented with & like &a 	&b 	&c
 
 -------------------------------- DAY 11 - 4TH JAN 2025 --------------------------------------------------------------
-To make filters, 
+To make filters,
 if (Filter = file field AND filter <> ' ') OR FIlter = ' '
 To filter with multiple fields, just formulate it as needed.
 Home work: Use filter with 2 fields
@@ -529,16 +529,16 @@ Filter by:
 	customer : ___________
 	threshold order amount : ____________
 	use the above to filter.
-	
-Keyword : SFLRCDNBR(CURSOR/*TOP) => DDS level keyword/function. This helps to locate and position to the data as needed.	
+
+Keyword : SFLRCDNBR(CURSOR/*TOP) => DDS level keyword/function. This helps to locate and position to the data as needed. This position to must only used with a key in the pf.
  This should be defined in the DDS DSPF file of the screen.
- To Define, go to DSPF file, go to last line of the record, click F4, enter the name and length and decimal position, Data type (better will be Zoned, packed is also fine) , 
+ To Define, go to DSPF file, go to last line of the record, click F4, enter the name and length and decimal position, Data type (better will be Zoned, packed is also fine) ,
  add Use as H(hidden field) and enter this function.
- 
+
 -------------------------------- DAY 12 - 6TH JAN 2025 --------------------------------------------------------------
 ARRAY - IT IS A STANDALONE VARIABLE, BUT NEED TO SPECIFY USING KEYWORD 'DIM(ARRAY_SIZE)' MEANS DIMENSIONS. THIS ARRAY IS CALLED RUN TIME ARRAY.
 GIVE ARRAY NAME, DECLARATION TYPE - S, GIVE LENGTH(OF EACH ELEMENT) AND KEYWORD 'DIM(ARRAY_SIZE).
-OTHER 2 TYPES - COMPLILE TIME ARRAY(VALUES WILL BE INTIALIZED INSIDE THE PROGRAM ITSELF), PRE RUN TIME ARRAY(WHEN WE ISSUE A CALL COMMAND, IT WILL LOAD THIS FROM A FILE(FLAT FILE)) IT IS NOT USED MUCH. 
+OTHER 2 TYPES - COMPLILE TIME ARRAY(VALUES WILL BE INTIALIZED INSIDE THE PROGRAM ITSELF), PRE RUN TIME ARRAY(WHEN WE ISSUE A CALL COMMAND, IT WILL LOAD THIS FROM A FILE(FLAT FILE)) IT IS NOT USED MUCH.
 
 INTIALIZING ARRAY...
 IT NEED TO PROVIDED INDEX. e.g C 	EVAL 	ARRAY1(1) = 'a'
@@ -551,42 +551,42 @@ USE 'SORTSA' OPERATOR FOR SORTING ARRAY IN ASCENDING ORDER.
 %XFOOT(array_name) => It will return total sum for a numeric array.
 Declaring numeric array, give type s and decimal point 0,
  xfoot and lookup are also built in function and also opcode.
- 
+
  For Compile time array:
  it should be declared after the subroutine. from the column 1(we usually start from col 6).
  to shift left use 'shift+f7' or F19.
  at the end use ** before entering the values of the array. Also add dim(arraysize)ctdata in the keywords while definition of each array.
  If to add multiple compile time array and want to enter the values. use ** to enter to the next array in the sequence of the declaration.
- Compile time array is used to display error messages or static. 
- 
- To have 2D array, along with dim() add 'PERRCD(size)' i.e. per record 
- 
+ Compile time array is used to display error messages or static.
+
+ To have 2D array, along with dim() add 'PERRCD(size)' i.e. per record
+
 DATA STRUCTURES:
 DEFINING:
 	DECLARATION TYPE SHOULD BE 'DS'.
 	SUBSEQUENT FIELDS WILL BE SUBFIELDS.
 	SUBFIELDS NEED LENGTH AND FROM. IF YOU DONT GIVE STARTING FROM, SYSTEM WILL DO IT BY CALCULATING THE POSITIONS FROM THE LENGTH.
-	DATA STRUCTURES NEED ZONED TYPE. 
+	DATA STRUCTURES NEED ZONED TYPE.
 	WHILE DEFINING GIVE DATA TYPE SHOULD BE GIVEN IF NUMERIC IS NEEDED.
-	
-	
-	
-CREATE A PROGRAM TO POPULATE ALL RECORDS FROM ITMPF TO A FLATFILE.	
+
+
+
+CREATE A PROGRAM TO POPULATE ALL RECORDS FROM ITMPF TO A FLATFILE.
 ITMFLTF
 
-WE NEED TO RENAME RECORD FORMAT FOR FLATFILE, SINCE BOTH FILE AND RECORD HAVE SAME NAME. IT CAN BE SOLVED USING RENAME OPERATOR. 
+WE NEED TO RENAME RECORD FORMAT FOR FLATFILE, SINCE BOTH FILE AND RECORD HAVE SAME NAME. IT CAN BE SOLVED USING RENAME OPERATOR.
 FIELD AND FILE HAVE SAME NAME, TO SOLVE IT, WE NEED TO USE PREFIX. Prefix will change the field names temporarily.
 
 -------------------------------- DAY 13 - 7TH JAN 2025 --------------------------------------------------------------
 
 Difference between chain, reade, setLL
 
-Can use Rename() to rename a table record format. 
-Homework: try rename() on a table. 
+Can use Rename() to rename a table record format.
+Homework: try rename() on a table.
 :: RPGLE won't run when file name and record name is same. In table, both file and record format is same. So rename is needed.
 
 
-Considering the flatfile program, we had to define each fields of the PF seperately in the DS. We can prevent that by naming the DS name with P_<name> giving External as 'E' and give keywords with EXTNAME('<PF name>')
+Considering the flatfile program, we haVE to define each fields of the PF seperately in the DS. We can prevent that by naming the DS name with P_<name> giving External as 'E' and give keywords with EXTNAME('<PF name>')
 
 PROGRAM STATUS DATA STRUCTURE: Provides info about program errors/exceptions to DS. IT IS AT PROGRAM LEVEL e.g. If there is error, it is stored in a field,
 To define it, give the name, S/U as 's'(program status ds), type 'ds'
@@ -604,11 +604,11 @@ In subfiles from infds Subfile Min RRN value will be used (positions 378-379) an
 
 Multi occurence data structure defined by keyword `occurs(no of elements)` and read or write is done by %occur() = index
 
-`qualified` keyword => to use with array Data structure. 
+`qualified` keyword => to use with array Data structure.
 `DDs1		DS		dim(3) qualified`
-It can be directly used with data structure. It means subfields to be qualified for the Data structure name. 
+It can be directly used with data structure. It means subfields to be qualified for the Data structure name.
 It is not necessary for normal ds, but is important for array ds.
-It can be used with subfields like ds1(i).sub1...	
+It can be used with subfields like ds1(i).sub1...
 
 `CLEAR <OPCODE>` IS USED TO CLEAR THE JUNK VALUE IN A DATASTRUCTURE ARRAY BEFORE USING IT.
 Clear in opcode and mention the ds in result column.
@@ -618,26 +618,26 @@ Clear in opcode and mention the ds in result column.
 Two other types of DS are:
 1. Indicator DS
 2. Data area DS.
-	data areas are some objects 
-	
+	data areas are some objects
+
 - Pre run time array
-	For flatfile,   
+	For flatfile,
 		- use `T` in file designation (which indicates it as a array or a table
 		- use `F` for file format.
 		- record length as 50
-		
+
 		- define array, with type as s size as same of record, here 50 and dim (5) . use keyword `fromfile(flatfile)`
-		
-		
+
+
 -------------REPORT LAYOUT UTILITY (RLU) ------------------------
-		
+
 
 COMMAND IS `STRRLU` AND GIVE PROMPT.... GIVE SOURCE FILE AS `QDDSSRC` AND LIBRARY, GIVE FILE NAME AND OTHERS DEFAULT ONE.
 To define record, make a line and on the line numbers, type `DR`
 F11 to define fields.
 Type will be *File, attribute will be PRTF
 
-OPTION 19 TO GET INTO RLU FROM DDSSRC 
+OPTION 19 TO GET INTO RLU FROM DDSSRC
 
 OVERFLOW INDICATOR WILL BE SWITCHED ON WHEN PAGE IS COMPLETED. KEYWORD 'OFLIND()' GIVE IN KEYWORD OF FILE.
 SPACEB() => SPACE BEFORE
@@ -657,40 +657,40 @@ Error Handling :
 	Give (e) with file opcodes. like e.g. delete(e)
 	then check if %error() and display the message.
 	%STATUS() CAN BE ALSO USED.
-	
-	
+
+
 3. IN RPG 3, THERE WASNT MONITOR AND E ... DURING THOSE TIME, WE USED INDICATORS FOR HANDLING.
 		CONSIDER THE WRITE STATMENT AND GIVE PROMPT, THERE WILL HI AND LO... GIVE LO AS 99, WHICH WILL WORK IF THERE IS ERROR.
-	
+
 4. *PSSR - PROGRAM STATUS SUBROUTINE
-	WHEN PROGRAM ENDS ABNORMALLY, CONTROL WILL GO TO PSSR AND ERROR CONDITIONS WILL BE HANDLED THERE. IT CAN BE HANDLED ONLY BY ENDSR. IT CAN BE USED FOR LOGGING ERRORS. 
+	WHEN PROGRAM ENDS ABNORMALLY, CONTROL WILL GO TO PSSR AND ERROR CONDITIONS WILL BE HANDLED THERE. IT CAN BE HANDLED ONLY BY ENDSR. IT CAN BE USED FOR LOGGING ERRORS.
 	C *PSSR 	BEGSR
 	C 'ERROR' 	DSPLY
 	C 			ENDSR   '*CANCL'
-	
-	*CANCL WILL END THE PROGRAM. 
+
+	*CANCL WILL END THE PROGRAM.
 	*RETRY WILL RETRY TO RUN Again
-	*GETIN 
-	
+	*GETIN
+
 5. INFSR - FOR FILE LEVEL. INFSR IS A KEYWORD NOT A SUBROUTINE UNLIKE *PSSR.
 
-		FFILENAME 	IF 	E 		A DISK 			INFSR(SR) 
-		
+		FFILENAME 	IF 	E 		A DISK 			INFSR(SR)
+
 	SR SHOULD GET EXECUTED WHEN THERE IS FILE ISSUE.
 	SR CAN BE REPLACED BY *PSSR TOO.
-	
+
 ----------------------------------------------------------------
 
-RETURN VS INLR 
+RETURN VS INLR
 
-INLR => ALL THE FILES WILL BE CLOSED, CLEAR THE MEMORY.	
+INLR => ALL THE FILES WILL BE CLOSED, CLEAR THE MEMORY.
 RETURN => CLOSING WILL NOT HAPPEN, VARIABLE VALUES WILL NOT BE CLEARED UNLIKE INLR. IT WILL CONFLICT WITH OTHER PROGRAM LIKE IF NEXT PROGRAM DONT HAVE INTIALIZATION FOR THOSE VARIABLES USING AGAIN, IT WILL RETAIN THE VALUE OF PREV PROGAM.
 			ADVANTAGE OF RETURN
-			
+
 -------------------------------- DAY 16 - 10TH JAN 2025 --------------------------------------------------------------
 %EDITC() - TO CONVERT DEC/INT TO CHARACTER ALONG WITH SOME CONSTRAINTS LIKE -, * , POINT... ETC
 CURSYM IS TO ADD CURRENCY SYMBOL. BY DEFAULT IT IS DOLLAR, YOU CAN CHANGE IT AS PER NEED.
-	
+
 COMPILER DIRECTIVES:
 
 /COPY VARIABLE.... E.G. MAKE A RPGLESRC FILE 'COPYBOOK' WITH ONLY DEFINITION OF A VARIABLE.THEN GO TO A RPGLE SOURCE CODE AND USE `/COPY COPYBOOK` . WHEN YOU COMPILE, THE VARIABLE WILL BE INCLUDED IN THAT PROGRAM.
@@ -712,21 +712,21 @@ E.G. C 			EXCEPT		HEADER
 AFTER COMPLETING C SPEC. THEN UNDER C SPEC... DEFINE O-SPEC, THEN,
 	DEFINE FILE NAME. E.G. OSPECRPT WITH O-SPEC TAG.... TYPE AS E AND EXCEPTNAME AS 'HEADER' (AS NEEDED)
 	NEXT LINE, GIVE THE CONSTANT('EMPLOYEE REPORT'), AND END POSITION LIKE 25
-	NEXT LINE, NEXT CONSTANT(PAGE)... 
+	NEXT LINE, NEXT CONSTANT(PAGE)...
 	NEXT LINE, TO GIVE FIELD TO GET DATA(PAGE), GIVE PAGE IN FIELD NAME... AND END POSITION AS +2, AND FIELD FORMAT AS 'S'
-	
-	TO DEFINE NEXT RECORD, DO SAME LIKE WITH O AND E WITH TYPE AND HEADING, 
-	
+
+	TO DEFINE NEXT RECORD, DO SAME LIKE WITH O AND E WITH TYPE AND HEADING,
+
 	skipa(2) - after printing the record, it will skip to the line.
 	skipb()- it will skip before printing.
 	provide in keyword of the fields like headings etc...
-	
-	
-	
--------------------------------- DAY 17 - 11TH JAN 2025 --------------------------------------------------------------
-	CRTPRTF - TO CREATE PRINTER FILE AND THEN COMPILE THE RPGLE.
 
-WHILE DEBUGGING BREAK EMPNO = 95 TO JUST GO TO THAT LINE AND DEBUG ONLY THAT LINE TO CHECK IF THERE IS PROBLEM THERE WHILE IN A Loop, RATHER THAN STEPPING THE WHOLE BIG LOOP.
+
+
+-------------------------------- DAY 17 - 11TH JAN 2025 --------------------------------------------------------------
+	CRTPRTF - TO CREATE PRINTER FILE AND THEN COMPILE THE RPGLE. YOU NEED TO MANUALLY CREATE PRINTER FILE, THEN ONLY IT WILL WORK.
+
+WHILE DEBUGGING, BREAK EMPNO = 95 TO JUST GO TO THAT LINE AND DEBUG ONLY THAT LINE TO CHECK IF THERE IS PROBLEM THERE WHILE IN A Loop, RATHER THAN STEPPING THE WHOLE BIG LOOP.
 BREAK 11 WHEN EMPNAME 'T'
 
 DSPMODSRC - TO GET DEBUG WINDOW DISPLAYED AND FROM HERE YOU CAN WORK AND CONTINUE IF YOU DIDNT CHANGE COMPLETELY, OTHERWISE ONLY ENDDBG.
@@ -745,19 +745,32 @@ use kfile.
 free format...
 older version needed /free and /end-free for writing free format, now it is not needed.
 need ; after every line.
-default date format is ISO. to change it you can give in H spec with in HDATFMT(*MDY) 
+default date format is ISO. to change it you can give in H spec with in HDATFMT(*MDY)
 Can override date format in D level also... with the variable, give keyword DATFMT(*ISO) .... *ISO means format as needed. this will change only that field date.
 
-without seperator between dates like -,/ .... give at c level.... like date 1 = %date(char2:iso0) .... 0 is needed if there is not seperator. 
+without seperator between dates like -,/ .... give at c level.... like date 1 = %date(char2:iso0) .... 0 is needed if there is not seperator.
 MDY format => mmddyy
 usa => mmddyyyy
 
 tO ADD DAYS TO A DATE... DATE2= DATE + %DAYS(20)
 FOR MONTHS %MONTHS(), FOR YEARS, %YEARS()
 
+SUDDUR(SUBTRACT DURATION) AND ADDDUR(ADD DURATION) => TO EDIT DATE.
+TO GET DIFFERENCE BETWEEN DATES : USE %DIFF(DATE1: DATE2: <WHAT PARAMETER>)
+				PARAMETER=> *DAYS, *YEARS, *MONTHS
+				
+TO INITIALIZE DATE TO A VARIABLE AS NEEDED BY USING INZ AT D SPEC KEYWORD... INZ(D'2023-01-25') .... D IS USED TO INFORM COMPILER THAT ITS DATE INITIALIZATION.
+`TEST` OPCODE TO VALIDATE DATE FORMATS 
+TEST(DE)
+D TO CHECK DATE
+E AS EXTENDER FOR ERROR HANDLING.
+THEN GIVE IF %ERROR() SHOW MESSAGE AND ITER.
+
+TEST CAN BE USED TO TEST OTHER NUMERIC/DEC TOO WITH N... LIKE TEST(N) ....
+
 -------------------------------- DAY 19 - 14TH JAN 2025 --------------------------------------------------------------
 What all we read now are native rpg IOs(read, chain, setll etc)
-CL need all these RPG IOs, like it combines with these and does working. system creates a temperory object for each work of a user and stores in qtemp and uses it. 
+CL need all these RPG IOs, like it combines with these and does working. system creates a temperory object for each work of a user and stores in qtemp and uses it.
 
 CL PROGRAMMING................................
 
@@ -770,12 +783,268 @@ END OF PGM 				*INLR='1' OR RETURN 			ENDPGM
 PARAMETERS				PLIST 							WE WILL ACCEPT IN PGM COMMAND
 ERROR HANDLING 			MONITOR OR %ERROR 				MONMSG
 CONCAT STRING 			EVAL STR= A+B 					CHGVAR &STSR VALUE(STRA||STRB)        CAN ALSO USE *CAT,*TCAT, *BCAT, CHGVAR *C VALUE(&A *CAT &B)
-														*CAT 								C 	FIRST   SECOND
-														*TCAN 								C	FIRSTSECOND  .................. NO SPACE
-														*BCAT 								C 	FIRST  		SECOND  ............EXTRA SPACE
-														
-SOURCE FILE: QCLSRC 
+														*CAT 								C 	FIRST   SECOND                               *CAT or || Joins two strings "as is"
+														*TCAN 								C	FIRSTSECOND  .................. NO SPACE	 *TCAT or |< Joins two strings trimming first string
+														*BCAT 								C 	FIRST  		SECOND  ............EXTRA SPACE  *BCAT or |> Joins two strings with a single blank space between
+
+SOURCE FILE: QCLSRC
 FILE TYPE : CLP
 SENDMSG TO DISPLAY IN DSPMSG
-SENDBRKMSG TO DISPLAY IN SCREEN.														
+SENDBRKMSG TO DISPLAY IN SCREEN.
 SNDBRKMSG  MSG(&C) TOMSGQ(*ALLWS)  => THIS WILL SEND MESSAGE TO ALL USERS IN THE WORKSTATION.
+THERE IS NO ENDIF FOR `IF` CONDITIONAL STATEMENT HERE.
+
+NO NEED OF CONVERSION HERE, IF WE TRY TO MOVE A DEC TO CHAR VARIABLE... CL WILL AUTOMATICALLY CONVERT UNLIKE RPGLE WHICH WE USE %CHAR(). BUT WHILE CONCAT, ONLY 2 STRINGS CAN BE DONE.
+
+TO PERFORM MULTIPLE STATEMENT INSIDE `IF` CONDITIONS, THEN USE DO BLOCKS .. LIKE
+IF 		<CONDITION>    THEN(DO)
+	STATEMENT1
+	STATEMENT2
+	STATEMENTn
+	ENDDO
+---------------------------------
+
+TO CHECK ERRORS, AGAIN HERE ALSO `WRKSPLF`
+
+
+TO DEBUG, HERE WE HAVE TO GIVE `*SRCDBG` INSTEAD OF `*SOURCE` IN SOURCE LISTING OPTIONS. THERE IS NO OPTION TO ENTER *NODEBUGIO HERE.
+ WHILE STRDBG, CL BELONGS TO OPM(ORGINAL PROGRAM MODULE), WE HAVE TO TURN IT *YES.... WHILE NOT NEEDED IN RPGLE, SINCE RPGLE BELONGS TO ILE, NOT OPM.
+
+ USING GOTO LABEL...
+ EVERY LINE HAS A LABEL... TO USE GOTO, JUST GIVE THAT LABEL WITH GOTO CMDLBL(<LABEL_NAME>).
+
+FILE OPERATIONS IN CL
+
+DECLARING FILE => DCLF
+THEN GIVE THE FILE NAME.
+OPEN FILE IDENTIFIER IS FOR PREFIX, IT IS REQUIRED WHEN THERE IS MORE THEN ONE FILE. WE CAN GIVE LIKE I_ITEMNO, E_EMPNAME WHERE I AND E ARE OPEN FILE IDENTIFIER FOR RESPECTIVE PFS.
+RCVF TO READ RECORDS....IT IS SIMILAR TO READ IN RPGLE, IT READS SEQUENTIALLY.
+
+LOOPS IN CL,
+1. DOWHILE
+2. DOUNTILL
+3. DOFOR
+
+WE CAN ALSO USE GOTO COMMAND. TO END READING FILE WHILE USING GOTO. CAN USE MONMSG...
+WHEN EOF IS REACHED A ERROR WILL APPEAR, THE MONMSG ACTIVATED FOR EOF IS `CPF0864`, GIVE IT THERE AND EXEC GOTO END(END OF PROGRAM)
+`ITERATE` INSTEAD OF ITER... TO GO TO THE START OF LOOP.
+
+CLRMSGQ MSGQ(WING06) => to clear msgq
+
+WRKOBJLCK OBJ(WING06) OBJTYPE(*MSGQ)
+
+-------------------------------- DAY 20 - 15TH JAN 2025 --------------------------------------------------------------
+Screen and CL.
+Make screen like we do earlier.
+In CL, instead of exfmt, we use `SNDRCVF` and then prompt, and give record format name as Record name given in the SDA.
+loop condition for do while is `&IN03 = '1' ` then leave.
+MCH1211 - DIVISION ERROR CODE
+
+DATA AREA:
+Object which will hold data, it can be accessed by any system, it can be used as a switch
+	COMMAND TO CREATE : CRTDTAARA
+		NEED TO ADD TYPE
+	COMMAND TO CHANGE DATA AREA CHGDTAARA
+	COMMADN TO DISPLAY DATA AREA: DSPDTAARA
+	RETRIVING VALUE OF DATA AREA INTO A CL Variable : RTVDTAARA
+	to get the list of data area in our system, use `wrkobj` and prompt it to add object type as `*DTAARA` AND GIVE THE LIBRARY
+	
+
+
+
+TO ACCESS CMDLINE AT DEBUG WINDOW... USE SHIFT + F9 ,  THIS CAN BE USED ANYWHERE IN THE AS400...
+
+IN RPGLE, YOU CAN USE `IN` OPCODE TO RETREIVE VALUE FROM AREA... WHILE `OUT` TO CHANGE DATAAREA.
+		DEFINE THE DATAAREA AT DSPEC WITH TYPE AND SIZE AND ALSO GIVE KEYWORD `DTAARA`... IF YOU DEFINE IN SAME NAME FOR DATA AREA VARIABLE... IT WILL WORK... BUT IF YOU WANT TO USE CUSTOM KEYWORD YOU SHOULD GIVE DATAAREA NAME ALONG WITH `DATAAREA(<NAME>)` KEYWORD
+
+	IF YOU WANT TO UPDATE THE DATA AREA THROUGH RPGLE, WE SHOULD LOCK THE `IN` OPCODE (OR READING)... TO DO THAT, WE HAVE TO EXPLICITLY MENTION IT WITH *LOCK IN FACTOR1 OF `IN` WHILE FACTOR2 HAS NAME OF TEST AREA.
+	THEN USING EVAL, POPULATE THE DATA TO DATA AREA.
+	THEN USE `OUT` TO UPDATE OR WRITE INTO THE DATAAREA.
+	IN RPGLE, TO Retrieve DATA BASED ON POSITION, WE CAN USE %SUBST(<STRINGVARIABLE>:PAR_POSTION:LENGTH_TO_RETRIEVE)
+
+		CL COMMAND FOR SUBSTRING: %SUBSTRING , OR %SUBST
+
+	OTHER THAN IN OR OUT OPCODE WE CAN USE DATA STRUCTURE TO UPDATE, WE JUST HAVE TO DO EVAL HERE... NO NEED OF OTHER KEYWORDS/OPCODES... WHILE DEFINING DATA STRUCTURE AT DSPEC... GIVE DS TYPE AS `U` WHICH IS SPECIFIC FOR DATA AREA, AND SAME LIKE ABOVE, GIVE KEYWORD `DTAARA`.
+	DS WILL DIVIDE THE TEXT AREA INTO IT'S SUBS ACCORDING TO SIZE, THIS WILL MAKE EASY TO EDIT ACCORDING TO SUB WE NEED.
+
+ rtvsysval OPCODE WITH SYSVAL(QDATE) ... AND OTHER PARAMETERS LIKE QCENTURY, QTIME,,,,,  ETC...  EQUIVALENT TO %DATE, %TIME ETC.... IN DATE IT WILL RETURN 6 DIGIT CURRENT DATE.
+
+ TO RETRIVE SYSTEM NAME ... RTVNETA SYSNAME(),
+
+ RTVJOBA JOB() TO GET CURRENT INTERACTIVE SESSION ID
+
+ RTVMBRD - PROVIDES DESCRIPTION OF A PARTICULAR FILE MEMBER
+
+
+%LEN() TO GET LENGTH OF A STRING. IN CL WE CANT TAKE LENGTH OF A TRIMMED STRING... WHILE IN RPGLE, WE CAN GET THAT LENGTH WITH SAME FUNCTION. E.G N = %LEN(%TRIM(STRINGa))
+
+%SCAN() WILL RETURN POSITION OF AN ELEMENT IN A STRING OR VARIBALE(%LOOKUP IS FOR ARRAY).
+
+XLATE() WONT WORK IN CLP
+
+-------------------------------- DAY 21 - 16TH JAN 2025 --------------------------------------------------------------
+
+OVRDBF => OVERRIDE DATABASE FILE.
+DLTOVR => TO DELETE OVERRIDE.
+
+THE ABOVE 2 ARE FOR CL. WHILE FOR RPGLE , ITS EQUIVALENT IS EXTFILE() IN F SEPC
+BUT IN RPGLE, WE CAN MENTION ONLY 1 FILE TO OVERRIDE.
+USROPN IS USED WITH EXTFILE()
+
+ADDPFM - TO ADD PHYSICAL FILE MEMBER... 
+EXTMBR - TO REFER OTHER MEMBERS WITH IN THE FILE.(IN RPGLE)
+
+-------------------------------- DAY 22 - 17TH JAN 2025 --------------------------------------------------------------
+
+TO OVERRIDE FILE, RPG EQUIVALENT IS EXTFILE
+TO OVERRIDE MEMBER, RPG EQUIVALENT IS EXTMBR
+OVERRIDING ATTRIBUTES, USING OPNQRYF
+
+OPNQRYF - IT IS EQUIVALENT TO SELECT OMIT, LIKE A LOGICAL FILE... CAN BE USED IN CL. 
+DSPJOBLOG - TO DISPLAY JOB LOGS, SOME ERRORS CAN BE SEE THERE TOO.
+
+IN SYSTEMREQ, GIVE 2*IMMED TO END THE CURRENT COMMAND, 1*IMMED TO END JOB..
+OPNQRYF VS LF
+
+PARAMETERS IN CALL ARE ALSO USED TO COMMUNICATE BETWEEN TWO PROGRAMS, IN CALL () PARM(), IT WILL ALSO RECIEVE THE DATA FROM ANOTHER PROGRAM. I.E. IT CAN RECIEVE VALUE AND PASS THE VALUE TOO. 
+
+IN DEBUG F22 WILL PASS TO NEXT PROGRAM WHICH STEP IS ON THE CALL(). 
+
+%WLDCRD("T") IN CL,WILDCARD, WILL SELECT ALL THE CITIES STARTING WITH THE LETTER WE MENTION.
+
+TO SUBMIT A JOB IN BATCH JOB IS `SBMJOB CALL PGM()` 
+BATCH JOB  SENDS THE JOBS TO SUBSYSTEM.
+TO MAKE REPORT OF ALL CITIES IN A PF, IF WE MAKE A LOOP AND SUBMIT IT THROUGH CL... BY  BATCHJOBS, IT WILL SUBMIT ON THAT MOMENT UNLIKE USING DIRECT `CALL` WHICH WILL TAKE TIME.. 
+IT WILL ONLY ITERATE AFTER EACH ITEM REPORT IS GENERATED... BATCHJOB WILL DO MULTITHREADING HERE. 
+
+-------------------------------- DAY 23 - 18TH JAN 2025 --------------------------------------------------------------
+
+FIND STRING PdM(FNDSTRPdM) COMMAND 25 IN OPTION AND SHIFT+ F1 
+
+JOBQUEUE= OBJECT TYPE IS *JOBQ
+
+CPYF TO COPY FILE DATA ....
+
+dsppgmref to check level identifier.
+
+wrkactjob sbs(qbatch) this is to check active job in qbatch subsystem
+
+wrkjobq qbatch  This is to check jobs in qbatch job queue
+
+DSPPGMREF (PGMNAME) THIS WILL give reference in a program
+
+
+to get more line in CL, give call qcmd
+
+
+CPYF
+1.     FILE1 AND FILE2 CAN BE OF SAME STRUCTURE
+MBR OPTION parameter :
+	 ADD : Adding records in TO file
+             REPLACE : Replace data in to file.
+	*UPDADD : Update or add
+CREATE file parameter :
+ If destination file doesn’t exist , we can use this parameter to create and copy data
+ Using this parameter we need provide library name in To file.
+ Destination file will always be created as physical file , even if we copy logical file into it.
+Source file  has more fields
+CPYF FROMFILE(DEPTPF) TOFILE(DEPTPF1) MBROPT(*REPLACE) CRTFILE(*YES) FMTOPT(*DROP)
+*drop will drop extra fields from source file
+2. Destination file  has more fields
+CPYF
+FROMFILE(DEPTPF) TOFILE(DEPTPF1) MBROPT(*REPLACE) CRTFILE(*YES) FMTOPT(*MAP)
+*MAP will  MAP extra fields IN DESTINATION FILE WITH DEFAULT VALUES .
+3.
+COPY file with both map and drop , system will take care based on file fields.
+CPYFF FROMFILE(DEPTPF) TOFILE(DEPTPF1) MBROPT(*REPLACE) CRTFILE(*YES) FMTOPT(*MAP *DROP)
+4.
+Different structure copy between flat file and structured file.
+COPY will happen byte by byte
+Fmtopt : *nochk
+CPYF FROMFILE(DEPTFLAT) TOFILE(DEPTPF1) MBROPT(*REPLACE) FMTOPT(*NOCHK)
+
+CREATE A DIRECTORY... CRTDIR..
+WRKLNK TO VIEW THE DIRECTORY...
+CPYTOIMPF TO COPY A FILE TO THE DIRECTORY... RECORD DELIMITER TO KNOW WHERE THE RECORD IS ENDING. IT SHOULDNT BE EOR(WHICH IS FOR AS400).USED TO COPY FIXED FILE TO FLATFILE, THEN WE SHOULD GIVE TO STREAM FILE AS BLANK WHILE TO DB FILE AS <FLATFILENAME>
+
+-------------------------------- DAY 24 - 20TH JAN 2025 --------------------------------------------------------------
+
+Error Handling in CLP:
+
+- in clp error handling is done by MONMSG command
+- monmsg (particlar set of messages)
+or 
+	monmsg(CPF0000 cpf9999 mch0000)   : to handle all messages
+			cpf... are escape messages... 
+			
+	QCPFMSG - WE WILL GET WITH OPERATING SYSTEM, ALL THE MESSAGES WILL BE FOUND HERE...
+	DSPMSGD - TO CHECK THE DESCRIPTION OF A MESSAGE...
+	
+COMMAND LEVEL MONMSG:
+	MONMSG CAN BE AT EVERY COMMAND LEVEL.
+
+	CLP COMMAND:
+		MONMSG(MSGID1 MSGID2 MSGID3....) FOR CLP COMMAND IT WILL HANDLE IT LIST OF MESSAGE IDS SPECIFIED..
+		IF TO HANDLE ALL MESSAGES THEN.... MONMSG(CPF0000 CPF9999) ALL MESSAGE IDS...
+		
+	PROGRAM lEVEL MONMSG:
+	SPECIFIED AFTER DECLARE COMMANDS AND IT WILL MONITOR ALL CL COMMANDS.
+	ONLY GOTO COMMAND CAN BE EXECUTED IF PGM LEVEL MONMSG GETS TRIGGERED.
+	
+	FOR COMMAND LEVEL, YOU CAN EXECUTE ANY OPCODE BUT FOR PROGRAM ELVEL ONLY GOTO COMMANDS CAN BE EXECUTED...
+	
+------------------------------------------------------------------------------------
+
+CVTDATE TO CONVERT DATE FROM ONE FORMAT TO ANOTHER IN CLP
+	IF WE TRY TO CONVERT SAME DATE TO SAME FORMAT, IT WILL WORK AS TEST DATE.... I.E. IT WILL CHECK VALIDITY OF Date
+	
+	
+	-----
+	CPYFRMQRYF 
+	
+	
+WRK COMMANDS
+
+PDM COMMANDS
+- WRKMBRPDM
+- WRKOBJPDM, TO LIST OBJECT.... TO SUBSET USE F17
+- WRKLIBPDM : LIST OF LIBRARIES
+
+FILE COMMANDS
+ - WRKF <FILENAME>
+	MANY OPTIONS ARE THERE INCLUDING DSPFFD, EDIT, CPY, CLT ETC.... 9. SAVE AND 10. RESTORE IS TO TRANSFER FILE TO ANOTHER SERVER. I.E. FROM SOURCE SERVER WE GIVE SAVE... AND IN DESTN WE GIVE RESTORE...
+ 
+OBJECT COMMANDS 
+ - WRKOBJ
+ - WRKOBJ OBJ(*LIBL/*ALL) 
+ - WRKOBJ GENERIC*
+	IF OPTION 3 COPY, IT WILL RUN CRTDUPOBJ COMMAND 
+		WHILE CREATING COPY OF LF IN ANOTHER LIBRARY, IT WONT BE CREATED UNLESS PF IS CREATED FIRST.
+		CPYF WILL CREATE... CPYF WILL CREATE STRUCTURE WHILE CRTDUPOBJ WILL CREATE EXACT VERSION OF OBJECT. 
+		CRTDUPOBJ CAN BE USED TO CREATE DUPLICATE NON FILE OBJECTS TOO...
+ - 
+ 
+-------------------------------------------------------------------------------------------------------------------------
+INTEGRATED LANGUAGE ENVIRONMENT (ILE)
+
+- HERE, THERE ARE MODULES,
+- ILE CAN BE COMBINATION OF MULTIPLE MODULES. 
+- WE CAN CREATE ACTIVATION GROUPS. 
+	IF WE CREATE MULTIPLE RPGLE PGMS IN SAME ACTIVATION GROUP, IT WILL GET SAME ODPS AND WILL BE FASTER.
+	
+ IN MODULES, THERE WILL BE ONE OR MORE SUB PROCEDURES. (LIKE CLASSES IN JAVA, WHILE MODULES ARE LIKE PACKAGES) 
+ SOME MODULES CAN BE WITHOUT ANY PROCEDURES, JUST PLAN BUSINESS LANGUAGE.
+ 
+ 
+ TO DEFINE A PROCEDURE IN A MODULE, WILL BE UNDER P-SPEC
+ TO DEFINE WE NEED TO DECLARE A PROTOTYPE: AT D SPEC
+ 
+ TO DEFINE NO - MAIN MODULE... WE CAN DO IN H SPEC...
+ CALC:MAIN ENTRY PROCEDURE(PEP)
+ 
+ TO COMPILE MODULE, IT'S OPTION 15, CRTRPGMOD , DEBUGGING ALSO CAN BE DONE HERE...
+ TO CALL THE FUNCTION IN ANOTHER PROGRAM... USE EVAL C = ADD(A:B)
+TO BIND 2 MODULES, USE `EXPORT` WITH THE PROCEDURE DEFINITION KEYWORD.
+THEN TO BIND ILE USE CRTPGM COMMAND WITH TYPE *PGM AND PLACE BOTH MODULES.
+
+-------------------------------- DAY 25 - 21ST JAN 2025 --------------------------------------------------------------

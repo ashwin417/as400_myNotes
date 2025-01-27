@@ -1,4 +1,6 @@
-# Create a flat file ITEMEXT with record length 500  2.Create rpgle program to move data from item pf to flat file
+# Create a flat file ITEMEXT with record length 500  
+
+# 2.Create rpgle program to move data from item pf to flat file
 
 ### Creating Flatfile
 - Use `crtpf <file_name>` and click on prompt button `F4`.

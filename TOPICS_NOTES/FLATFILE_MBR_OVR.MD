@@ -1,4 +1,3 @@
-Sure! Here is the explanation of the program in Markdown format:
 
 ---
 

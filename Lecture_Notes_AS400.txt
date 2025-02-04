@@ -935,6 +935,8 @@ wrkjobq qbatch  This is to check jobs in qbatch job queue
 
 DSPPGMREF (PGMNAME) THIS WILL give reference in a program
 
+msgw - message width... a job will have this, with this we can get details of message.
+
 
 to get more line in CL, give call qcmd
 
@@ -1355,3 +1357,209 @@ TO WRITE, WE CAN USE CALL QSYS2.IFS_WRITE(PATH_NAME =>'/PRAFUL/NEW_fILE',
                        LINE => 'TEST ADD2' ,
                        OVERWRITE => 'REPLACE',
                        END_OF_LINE => 'LF')
+					   
+-------------------------------- DAY 35 - 2ND feb 2025 --------------------------------------------------------------
+when a cl command fails it give cdir...
+c - cancel - it simply cancels without any dump.
+d- dump , it will create a spool file and shows the values in variables when the program failed.
+i - ignore
+r - retrieve 
+
+QSYSOPR - a system message operator queue where all the exceptions is taken. 
+dspmsg sysopr to see all the messages and exception where systems 
+
+wrkobjlck - complete object locked
+dsprcdlck - to check record lock in a object details.
+
+
+debug a program in batch process :
+   compile the program with *source / *srcdbg
+   then go to sbmjob and submit the program to batch.
+
+
+INTERACTIVELY
+
+    Call pgm1   it interacts realtime with system , only when this command completes we can execute next one.
+
+
+
+Batch job can be submitted by sbmjob cmd
+
+
+
+Batch job cycle :
+sbmJOB command 
+   job enters JOBQ-->BASED ON JOB PRIORITY IT  ENTERS  SUBSYSTEM  AND GETS ACTIVE (KIND OF WORKSPACE of our job to run)--> outq(it generates spool files and all)
+
+Job priorities in job queue:
+------------------------------------
+
+1 to 9 : 9 being lowest and 1 being highest
+
+run priority in subsystem
+--------------------------
+it is the priority with which job can use subsystem resources.
+Job is already running and 
+
+Job queues and subsystem are attached.
+wrksbsd subsystemname (to check details of subsystem)
+
+dspsbsd subsytemname (to display subsystem)
+
+wrkjobq jobqquename  ( to check and work on jobs in job queue)
+ wrkjob jobaname(work with jobs)
+
+changing job : 
+-------------------------------------------------------------------------------------------------
+If we need to change details of job(like job queue , job priority) we can directly use wrkjob and change job  
+   or we can get into job queue , take option 2 and  change run priority of that job..
+
+or we can use CHGJOB command.
+---------------------------------------------------------------------------------------------
+
+error handling
+---------------------------
+
+1. Checking actjob
+     wrkactjob (It will show all active jobs in system) 
+    wrkactjob sbs(Qbatch)   it will show only active jobs in qbatch subsystem.
+
+ 2. we can check job log and identify error.
+       dspjoblog jobname
+       
+
+
+3. WE CAN CHECK MESSAGES from *SYSOPR MSGQUEUE
+    DSPMSG  *sYSOPR
+    Take option 5 for our jobs message and then reply
+
+ or
+
+    we can directly to go to active job list and take option 7 we will get reply options and we can take appropriate reply.
+
+
+
+message reply options in CL 
+c: Cancel
+d : Cancel and dump  (This will cancel your process and creates a QPPGMDMP dump spool file)
+i  : Ignore failing command
+r   : Retry failing command 
+
+
+
+Message reply options in RPGLE
+
+c "cancel
+g (getin) : pass control to first c spec of ur pgm
+d : CANCEL AND CREATES  dump (QPPGMDMP SPOOL FILE)
+f : CANCEL AND IT CREATES fully formatted dump SPOOL FILE.
+
+                                                               
+
+
+COMAMND RELATED TO BATCH JOBS --------------------------------------------------------------------------------------------------------------
+sbmjob :
+
+command :
+
+wrkusrjob  username :  Work with all jobs (both interactive and batch submitted by user)
+wrkusrjob               if no user name parameter is provided it displays all jobs of current user.
+
+wrksbmjob  username : this will give only submitted (batch) job details of current user or provided user
+
+
+wrkjobq job queuename  (get all jobs in job queue)
+
+wrkactjob
+wrkactjob sbs(subsystem name)
+
+hldjobq : hold jobq queue
+hldjob : Hold job
+
+   dspmsg  *sysopr (display all exception messages on SYSOPR message queue or system operator message queue)
+   
+
+COMMAND TO CHECK LOCKS ON AS400 objects :
+wrkobjlck   we need to give object name and type
+
+sample command to checks lock on file :
+   WRKOBJLCK OBJ(EMPPF) OBJTYPE(*FILE)   
+
+dsprcdlck : to get details of record lock in file.
+
+
+
+
+--------------------------------Batch debug--------------------------------------------------------------------------
+
+TO DEBUG BATCH JOB , job needs to be in stop state either in error(msgw) or we need to hold it.
+
+
+1. start service job using STRSRVJOB command.
+2. enter debug command  like adding breakpoints and all 
+USING DSPMODSRC
+
+3. mAKE job run either by releasing or answering error
+
+4. ONCE It starts running it will stop at breakpoint and we can debug.
+
+5. Once debug done  do end debug using ENDDBG command
+
+6. END SERVICE JOB endsrvjob
+
+
+_______-------------------------------------------
+stored procedure
+ way of connecting as400 with other programs.
+ it uses endpoints to connect. 
+ 
+ parameter types are :
+ in 
+ out - mostly status or response (for api calls)
+ inout - taking details and updating and sending back response/status.
+ 
+ Two ways to write a query in stored procedure:
+   1. internal SP, to write directly in sql stored procedure. having entire logic in sql SP itself
+   2. here external SP, logic will be stored in cl, rpgle/srv pgms and it is called in SP.
+   
+   
+   stored procedure will Start with `Begin` and end with `end`.
+   variables will be declared using `Declare statement`
+   to move value, `set statement` is used.
+   
+   we can Create or Replace here. 
+   
+   
+   ibm websphere is uses stored procedures to group API 
+   
+   
+   to handle errors 
+   1. using SQLCODE ... but here we have to define... 
+   2. using handlers, using exit handler and continue handler.
+      
+ ----------------------------------------------------------------------
+ 
+ EXTERNAL PROCEDURE :
+			DETERMINISTIC - MEANS THE PROGRAM WILL RETURN SOME VALUE 
+			WHILE GIVING SERVICE PROCEDURE AS EXTERNAL NAME, NEED TO USE QUOTES,
+			SPECIFIC NAME IS USED FOR DROP TABLE, OR ALTER OR PROCEDURE OVER LOADING.
+			
+--------------------------------------------------------------------------------------
+
+SQL USER DEFINED FUNCTIONS :
+
+CREATE OR REPLACE FUNCTION F_NAME(
+
+ITEM CHAR(SIZE);
+NAME CHAR(SIZE) ;
+)			
+RETURNS CHAR(SIZE )
+LANGUAGE SQL
+DETERMINISTIC ;
+
+Begin
+	DECLARE .... ;
+	SET ...;
+	RETURN <VALUE> ;
+END ;
+			

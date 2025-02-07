@@ -1354,7 +1354,8 @@ in xml, sometimes namespaces are added to maintain uniqueness
 TO READ FROM IFS USING SQL,
 				SELECT CAST(LINE AS CHAR(500)) FROM TABLE(QSYS2.IFS_READ(PATH_NAME=> '/ASHWIN/SAMPLE.XML')) AS T2 ;
 TO WRITE, WE CAN USE CALL QSYS2.IFS_WRITE(PATH_NAME =>'/PRAFUL/NEW_fILE',
-                       LINE => 'TEST ADD2' ,
+                       LINE => 'TEST ADD
+					   2' ,
                        OVERWRITE => 'REPLACE',
                        END_OF_LINE => 'LF')
 					   
